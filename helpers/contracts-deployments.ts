@@ -20,6 +20,7 @@ import {
   ATokenFactory,
   ATokensAndRatesHelperFactory,
   AaveOracleFactory,
+  CasinoMarketOracleFactory,
   DefaultReserveInterestRateStrategyFactory,
   DelegationAwareATokenFactory,
   InitializableAdminUpgradeabilityProxyFactory,
@@ -44,6 +45,7 @@ import {
   ReserveLogicFactory,
   SelfdestructTransferFactory,
   StableDebtTokenFactory,
+  UiIncentiveDataProviderV2Factory,
   UniswapLiquiditySwapAdapterFactory,
   UniswapRepayAdapterFactory,
   VariableDebtTokenFactory,
@@ -54,7 +56,9 @@ import {
   PermissionedVariableDebtTokenFactory,
   PermissionedStableDebtTokenFactory,
   PermissionedLendingPoolFactory,
-  PermissionedWETHGatewayFactory
+  PermissionedWETHGatewayFactory,
+  UiPoolDataProviderV2Factory,
+  UiPoolDataProviderV2V3Factory,
 } from '../types';
 import {
   withSaveAndVerify,
@@ -73,18 +77,56 @@ import { LendingPoolLibraryAddresses } from '../types/LendingPoolFactory';
 import { UiPoolDataProvider } from '../types';
 import { eNetwork } from './types';
 
-export const deployUiPoolDataProvider = async (
-  [incentivesController, aaveOracle]: [tEthereumAddress, tEthereumAddress],
-  verify?: boolean
-) => {
-  const id = eContractid.UiPoolDataProvider;
-  const args: string[] = [incentivesController, aaveOracle];
-  const instance = await deployContract<UiPoolDataProvider>(id, args);
-  if (verify) {
-    await verifyContract(id, instance, args);
-  }
-  return instance;
-};
+export const deployUiIncentiveDataProviderV2 = async (verify?: boolean) =>
+  withSaveAndVerify(
+    await new UiIncentiveDataProviderV2Factory(await getFirstSigner()).deploy(),
+    eContractid.UiIncentiveDataProviderV2,
+    [],
+    verify
+  );
+
+  export const deployUiPoolDataProvider = async (
+    [incentivesController, aaveOracle]: [tEthereumAddress, tEthereumAddress],
+    verify?: boolean
+  ) => {
+    const id = eContractid.UiPoolDataProvider;
+    const args: string[] = [incentivesController, aaveOracle];
+    const instance = await deployContract<UiPoolDataProvider>(id, args);
+    if (verify) {
+      await verifyContract(id, instance, args);
+    }
+    return instance;
+  };
+
+  export const deployUiPoolDataProviderV2 = async (
+    chainlinkAggregatorProxy: string,
+    chainlinkEthUsdAggregatorProxy: string,
+    verify?: boolean
+  ) =>
+    withSaveAndVerify(
+      await new UiPoolDataProviderV2Factory(await getFirstSigner()).deploy(
+        chainlinkAggregatorProxy,
+        chainlinkEthUsdAggregatorProxy
+      ),
+      eContractid.UiPoolDataProvider,
+      [chainlinkAggregatorProxy, chainlinkEthUsdAggregatorProxy],
+      verify
+    );
+
+    export const deployUiPoolDataProviderV2V3 = async (
+      chainlinkAggregatorProxy: string,
+      chainlinkEthUsdAggregatorProxy: string,
+      verify?: boolean
+    ) =>
+      withSaveAndVerify(
+        await new UiPoolDataProviderV2V3Factory(await getFirstSigner()).deploy(
+          chainlinkAggregatorProxy,
+          chainlinkEthUsdAggregatorProxy
+        ),
+        eContractid.UiPoolDataProvider,
+        [chainlinkAggregatorProxy, chainlinkEthUsdAggregatorProxy],
+        verify
+      );
 
 const readArtifact = async (id: string) => {
   if (DRE.network.name === eEthereumNetwork.buidlerevm) {
@@ -716,6 +758,14 @@ export const deployFlashLiquidationAdapter = async (
     await new FlashLiquidationAdapterFactory(await getFirstSigner()).deploy(...args),
     eContractid.FlashLiquidationAdapter,
     args,
+    verify
+  );
+
+  export const deployCasinoMarketOracle = async (verify?: boolean) =>
+  withSaveAndVerify(
+    await new CasinoMarketOracleFactory(await getFirstSigner()).deploy(),
+    eContractid.CasinoMarketOracle,
+    [],
     verify
   );
 

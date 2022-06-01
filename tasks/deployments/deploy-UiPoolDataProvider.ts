@@ -21,6 +21,10 @@ task(`deploy-${eContractid.UiPoolDataProvider}`, `Deploys the UiPoolDataProvider
     const addressesByNetwork: {
       [key: string]: { incentivesController: string; aaveOracle: string };
     } = {
+      [eEthereumNetwork.rinkeby]: {
+        incentivesController: '0x0000000000000000000000000000000000000000',
+        aaveOracle: '0x568f63A60A91029aE4DeCe2305c9A61Ca24B648A',
+      },
       [eEthereumNetwork.kovan]: {
         incentivesController: '0x0000000000000000000000000000000000000000',
         aaveOracle: '0x8fb777d67e9945e2c01936e319057f9d41d559e6',
@@ -34,8 +38,8 @@ task(`deploy-${eContractid.UiPoolDataProvider}`, `Deploys the UiPoolDataProvider
         aaveOracle: '0x0229F777B0fAb107F9591a41d5F02E4e98dB6f2d',
       },
       [ePolygonNetwork.mumbai]: {
-        incentivesController: '0xd41aE58e803Edf4304334acCE4DC4Ec34a63C644',
-        aaveOracle: '0xC365C653f7229894F93994CD0b30947Ab69Ff1D5',
+        incentivesController: '0x0000000000000000000000000000000000000000',
+        aaveOracle: '0xEd65919Fb3B2788106d8564B722A0E00D0753D0c',
       },
       [eAvalancheNetwork.fuji]: {
         incentivesController: '0xa1EF206fb9a8D8186157FC817fCddcC47727ED55',

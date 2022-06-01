@@ -52,6 +52,7 @@ export const AaveArcConfig: IAaveArcConfiguration = {
       WETH: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
       AAVE: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
     },
+    [eEthereumNetwork.rinkeby]: {},
   }
 };
 

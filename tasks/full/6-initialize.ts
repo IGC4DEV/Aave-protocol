@@ -57,7 +57,6 @@ task('full:initialize-lending-pool', 'Initialize lending pool configuration.')
       }
 
       const treasuryAddress = await getTreasuryAddress(poolConfig);
-
       await initReservesByHelper(
         ReservesConfig,
         reserveAssets,
@@ -72,7 +71,6 @@ task('full:initialize-lending-pool', 'Initialize lending pool configuration.')
         verify
       );
       await configureReservesByHelper(ReservesConfig, reserveAssets, testHelpers, admin);
-
       let collateralManagerAddress = await getParamPerNetwork(
         LendingPoolCollateralManager,
         network
@@ -104,25 +102,20 @@ task('full:initialize-lending-pool', 'Initialize lending pool configuration.')
       );
 
       await deployWalletBalancerProvider(verify);
-
-      const uiPoolDataProvider = await deployUiPoolDataProvider(
-        [incentivesController, oracle],
-        verify
-      );
-      console.log('UiPoolDataProvider deployed at:', uiPoolDataProvider.address);
-
+      
       const lendingPoolAddress = await addressesProvider.getLendingPool();
 
       let gateWay = getParamPerNetwork(WethGateway, network);
       if (!notFalsyOrZeroAddress(gateWay)) {
-        if (pool === ConfigNames.Arc) {
+        if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic) {
           gateWay = (await getPermissionedWETHGateway()).address;
         } else {
           gateWay = (await getWETHGateway()).address;
         }
       }
       console.log('GATEWAY', gateWay);
-      await authorizeWETHGateway(gateWay, lendingPoolAddress);
+      //await authorizeWETHGateway(gateWay, lendingPoolAddress);
+      console.log('end init');
     } catch (err) {
       console.error(err);
       exit(1);

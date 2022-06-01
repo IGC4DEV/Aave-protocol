@@ -10,6 +10,7 @@ export enum eEthereumNetwork {
   buidlerevm = 'buidlerevm',
   kovan = 'kovan',
   ropsten = 'ropsten',
+  rinkeby = 'rinkeby',
   main = 'main',
   coverage = 'coverage',
   hardhat = 'hardhat',
@@ -33,6 +34,7 @@ export enum eAvalancheNetwork {
 export enum EthereumNetworkNames {
   kovan = 'kovan',
   ropsten = 'ropsten',
+  rinkeby = 'rinkeby',
   main = 'main',
   matic = 'matic',
   mumbai = 'mumbai',
@@ -43,10 +45,12 @@ export enum EthereumNetworkNames {
 
 export enum AavePools {
   proto = 'proto',
-  matic = 'matic',
-  amm = 'amm',
+  //matic = 'matic',
+  //amm = 'amm',
   arc = 'arc',
-  avalanche = 'avalanche',
+  casino = 'casino',
+  casinoMatic = 'casinoMatic'
+  //avalanche = 'avalanche',
 }
 
 export enum eContractid {
@@ -96,6 +100,7 @@ export enum eContractid {
   UniswapLiquiditySwapAdapter = 'UniswapLiquiditySwapAdapter',
   UniswapRepayAdapter = 'UniswapRepayAdapter',
   FlashLiquidationAdapter = 'FlashLiquidationAdapter',
+  CasinoMarketOracle = 'CasinoMarketOracle',
   PermissionManager = 'PermissionManager',
   PermissionedStableDebtToken = 'PermissionedStableDebtToken',
   PermissionedVariableDebtToken = 'PermissionedVariableDebtToken',
@@ -104,6 +109,9 @@ export enum eContractid {
   MockParaSwapAugustus = 'MockParaSwapAugustus',
   MockParaSwapAugustusRegistry = 'MockParaSwapAugustusRegistry',
   ParaSwapLiquiditySwapAdapter = 'ParaSwapLiquiditySwapAdapter',
+  UiIncentiveDataProviderV2 = 'UiIncentiveDataProviderV2',
+  UiPoolDataProviderV2 = 'UiPoolDataProviderV2',
+  UiPoolDataProviderV2V3 = 'UiPoolDataProviderV2V3',
 }
 
 /*
@@ -269,6 +277,7 @@ export interface iAssetBase<T> {
   STAKE: T;
   xSUSHI: T;
   WAVAX: T;
+  'CAST': T;
 }
 
 export type iAssetsWithoutETH<T> = Omit<iAssetBase<T>, 'ETH'>;
@@ -304,6 +313,10 @@ export type iAaveArcPoolAssets<T> = Pick<
   iAssetsWithoutUSD<T>,
   'USDC' | 'WBTC' | 'WETH' | 'AAVE'
 >;
+
+export type iAaveCasinoPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 
+  | 'DAI'
+  | 'CAST'>;
 
 export type iLpPoolAssets<T> = Pick<
   iAssetsWithoutUSD<T>,
@@ -450,6 +463,7 @@ export interface iEthereumParamsPerNetwork<T> {
   [eEthereumNetwork.buidlerevm]: T;
   [eEthereumNetwork.kovan]: T;
   [eEthereumNetwork.ropsten]: T;
+  [eEthereumNetwork.rinkeby]: T;
   [eEthereumNetwork.main]: T;
   [eEthereumNetwork.hardhat]: T;
   [eEthereumNetwork.tenderly]: T;
@@ -471,10 +485,12 @@ export interface iAvalancheParamsPerNetwork<T> {
 
 export interface iParamsPerPool<T> {
   [AavePools.proto]: T;
-  [AavePools.matic]: T;
-  [AavePools.amm]: T;
+  //[AavePools.matic]: T;
+  //[AavePools.amm]: T;
+  [AavePools.casino]: T;
   [AavePools.arc]: T;
-  [AavePools.avalanche]: T;
+  [AavePools.casinoMatic]: T;
+  //[AavePools.avalanche]: T;
 }
 
 export interface iBasicDistributionParams {
@@ -566,6 +582,11 @@ export interface IAmmConfiguration extends ICommonConfiguration {
   ReservesConfig: iLpPoolAssets<IReserveParams>;
 }
 
+export interface IAaveCasinoConfiguration extends ICommonConfiguration {
+  ReservesConfig: iAaveCasinoPoolAssets<IReserveParams>;
+  AssessorContracts: iParamsPerNetwork<ITokenAddress>;
+  AssetCurrencies: iParamsPerNetwork<ITokenAddress>;
+}
 export interface IMaticConfiguration extends ICommonConfiguration {
   ReservesConfig: iMaticPoolAssets<IReserveParams>;
 }
@@ -582,4 +603,4 @@ export interface ITokenAddress {
   [token: string]: tEthereumAddress;
 }
 
-export type PoolConfiguration = ICommonConfiguration | IAaveConfiguration;
+export type PoolConfiguration = ICommonConfiguration | IAaveConfiguration | IAaveCasinoConfiguration;

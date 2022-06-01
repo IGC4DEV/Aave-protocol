@@ -425,6 +425,7 @@ describe('Aave ARC fork test', () => {
     );
 
     const amountToLiquidate = userReserveDataBefore.currentVariableDebt.div(2);
+    console.log(weth.address,usdc.address,await users[4].getAddress(),amountToLiquidate)
     await pool
       .connect(users[3])
       .liquidationCall(

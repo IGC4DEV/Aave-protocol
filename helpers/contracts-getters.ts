@@ -211,12 +211,14 @@ export const getPairsTokenAggregator = (
     allAssetsAddresses,
     getQuoteCurrencies(oracleQuoteCurrency)
   );
+  console.log('assets without quote', assetsWithoutQuoteCurrency);
 
   const pairs = Object.entries(assetsWithoutQuoteCurrency).map(([tokenSymbol, tokenAddress]) => {
     //if (true/*tokenSymbol !== 'WETH' && tokenSymbol !== 'ETH' && tokenSymbol !== 'LpWETH'*/) {
     const aggregatorAddressIndex = Object.keys(aggregatorsAddresses).findIndex(
       (value) => value === tokenSymbol
     );
+
     const [, aggregatorAddress] = (
       Object.entries(aggregatorsAddresses) as [string, tEthereumAddress][]
     )[aggregatorAddressIndex];

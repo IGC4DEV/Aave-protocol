@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import {
-  oneEther,
+  oneUsd,
   oneRay,
   RAY,
   ZERO_ADDRESS,
@@ -13,14 +13,14 @@ import { ICommonConfiguration, ePolygonNetwork } from '../../helpers/types';
 // ----------------
 
 export const CommonsConfig: ICommonConfiguration = {
-  MarketId: 'Commons',
-  ATokenNamePrefix: 'Aave Matic Market',
-  StableDebtTokenNamePrefix: 'Aave Matic Market stable debt',
-  VariableDebtTokenNamePrefix: 'Aave Matic Market variable debt',
+  MarketId: 'AaveCasinoMatic',
+  ATokenNamePrefix: 'Aave Matic Casino Market',
+  StableDebtTokenNamePrefix: 'Aave Matic Casino Market stable debt',
+  VariableDebtTokenNamePrefix: 'Aave Matic Casino Market variable debt',
   SymbolPrefix: 'm',
   ProviderId: 0, // Overriden in index.ts
-  OracleQuoteCurrency: 'ETH',
-  OracleQuoteUnit: oneEther.toString(),
+  OracleQuoteCurrency: 'USD',
+  OracleQuoteUnit: oneUsd.toString(),
   ProtocolGlobalParams: {
     TokenDistributorPercentageBase: '10000',
     MockUsdPriceInWei: '5848466240000000',
@@ -41,26 +41,11 @@ export const CommonsConfig: ICommonConfiguration = {
   },
   // TODO: reorg alphabetically, checking the reason of tests failing
   LendingRateOracleRatesCommon: {
-    WETH: {
+    'CAST': {
       borrowRate: oneRay.multipliedBy(0.03).toFixed(),
     },
     DAI: {
       borrowRate: oneRay.multipliedBy(0.039).toFixed(),
-    },
-    USDC: {
-      borrowRate: oneRay.multipliedBy(0.039).toFixed(),
-    },
-    USDT: {
-      borrowRate: oneRay.multipliedBy(0.035).toFixed(),
-    },
-    WBTC: {
-      borrowRate: oneRay.multipliedBy(0.03).toFixed(),
-    },
-    WMATIC: {
-      borrowRate: oneRay.multipliedBy(0.05).toFixed(),
-    },
-    AAVE: {
-      borrowRate: oneRay.multipliedBy(0.03).toFixed(),
     },
   },
   // ----------------
@@ -73,12 +58,24 @@ export const CommonsConfig: ICommonConfiguration = {
     [ePolygonNetwork.matic]: undefined,
   },
   PoolAdminIndex: 0,
-  EmergencyAdminIndex: 0,
   EmergencyAdmin: {
     [ePolygonNetwork.mumbai]: undefined,
     [ePolygonNetwork.matic]: undefined,
   },
-  LendingPool: {
+  EmergencyAdminIndex: 0,
+  ProviderRegistry: {
+    [ePolygonNetwork.mumbai]: '',
+    [ePolygonNetwork.matic]: '',
+  },
+  ProviderRegistryOwner: {
+    [ePolygonNetwork.mumbai]: '0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810',
+    [ePolygonNetwork.matic]: '',
+  },
+  LendingRateOracle: {
+    [ePolygonNetwork.mumbai]: '',
+    [ePolygonNetwork.matic]: '',
+  },
+  LendingPoolCollateralManager: {
     [ePolygonNetwork.mumbai]: '',
     [ePolygonNetwork.matic]: '',
   },
@@ -86,23 +83,7 @@ export const CommonsConfig: ICommonConfiguration = {
     [ePolygonNetwork.mumbai]: '',
     [ePolygonNetwork.matic]: '',
   },
-  ProviderRegistry: {
-    [ePolygonNetwork.mumbai]: '0xE6ef11C967898F9525D550014FDEdCFAB63536B5',
-    [ePolygonNetwork.matic]: '0x3ac4e9aa29940770aeC38fe853a4bbabb2dA9C19',
-  },
-  ProviderRegistryOwner: {
-    [ePolygonNetwork.mumbai]: '0x943E44157dC0302a5CEb172374d1749018a00994',
-    [ePolygonNetwork.matic]: '0xD7D86236d6c463521920fCC50A9CB56f8C8Bf008',
-  },
-  LendingRateOracle: {
-    [ePolygonNetwork.mumbai]: '0xC661e1445F9a8E5FD3C3dbCa0A0A2e8CBc79725D',
-    [ePolygonNetwork.matic]: '0x17F73aEaD876CC4059089ff815EDA37052960dFB',
-  },
-  LendingPoolCollateralManager: {
-    [ePolygonNetwork.mumbai]: '0x2A7004B21c49253ca8DF923406Fed9a02AA86Ba0',
-    [ePolygonNetwork.matic]: '0xA39599424642D9fD35e475EF802EddF798dc555B',
-  },
-  TokenDistributor: {
+  LendingPool: {
     [ePolygonNetwork.mumbai]: '',
     [ePolygonNetwork.matic]: '',
   },
@@ -110,31 +91,27 @@ export const CommonsConfig: ICommonConfiguration = {
     [ePolygonNetwork.mumbai]: '',
     [ePolygonNetwork.matic]: '',
   },
+  TokenDistributor: {
+    [ePolygonNetwork.mumbai]: '',
+    [ePolygonNetwork.matic]: '',
+  },
+
   AaveOracle: {
     [ePolygonNetwork.mumbai]: '',
     [ePolygonNetwork.matic]: '',
   },
   FallbackOracle: {
-    [ePolygonNetwork.mumbai]: ZERO_ADDRESS,
+    [ePolygonNetwork.mumbai]: "0x9Ba6164c48Ae47c4838037ee8664786CBae54772",
     [ePolygonNetwork.matic]: ZERO_ADDRESS,
   },
   ChainlinkAggregator: {
     [ePolygonNetwork.matic]: {
-      AAVE: '0xbE23a3AA13038CfC28aFd0ECe4FdE379fE7fBfc4',
-      DAI: '0xFC539A559e170f848323e19dfD66007520510085',
-      USDC: '0xefb7e6be8356cCc6827799B6A7348eE674A80EaE',
-      USDT: '0xf9d5AAC6E5572AEFa6bd64108ff86a222F69B64d',
-      WBTC: '0xA338e0492B2F944E9F8C0653D3AD1484f2657a37',
-      WMATIC: '0x327e23A4855b6F663a28c5161541d69Af8973302',
-      USD: '0xF9680D99D6C9589e2a93a78A04A279e509205945',
+        'CAST': ZERO_ADDRESS,
+        DAI: '',
     },
     [ePolygonNetwork.mumbai]: {
-      DAI: ZERO_ADDRESS,
-      USDC: ZERO_ADDRESS,
-      USDT: ZERO_ADDRESS,
-      WBTC: ZERO_ADDRESS,
-      WMATIC: ZERO_ADDRESS,
-      USD: ZERO_ADDRESS,
+        'CAST': ZERO_ADDRESS,
+        DAI: '0x0FCAa9c899EC5A91eBc3D5Dd869De833b06fB046',
     },
   },
   ReserveAssets: {
@@ -147,19 +124,19 @@ export const CommonsConfig: ICommonConfiguration = {
     [ePolygonNetwork.matic]: '',
   },
   WETH: {
-    [ePolygonNetwork.mumbai]: ZERO_ADDRESS,
+    [ePolygonNetwork.mumbai]: "0x3C68CE8504087f89c640D02d133646d98e64ddd9",
     [ePolygonNetwork.matic]: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619',
+  },
+  ReserveFactorTreasuryAddress: {
+    [ePolygonNetwork.mumbai]: "0x1BD5503E542733E19A0B6b3b7C92Df60C3398F0E",
+    [ePolygonNetwork.matic]: '0x7734280A4337F37Fbf4651073Db7c28C80B339e9',
   },
   WrappedNativeToken: {
     [ePolygonNetwork.mumbai]: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
     [ePolygonNetwork.matic]: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
   },
-  ReserveFactorTreasuryAddress: {
-    [ePolygonNetwork.mumbai]: ZERO_ADDRESS,
-    [ePolygonNetwork.matic]: '0x7734280A4337F37Fbf4651073Db7c28C80B339e9',
-  },
   IncentivesController: {
-    [ePolygonNetwork.mumbai]: '0xd41aE58e803Edf4304334acCE4DC4Ec34a63C644',
-    [ePolygonNetwork.matic]: '0x357D51124f59836DeD84c8a1730D72B749d8BC23',
+    [ePolygonNetwork.mumbai]: ZERO_ADDRESS,
+    [ePolygonNetwork.matic]: ZERO_ADDRESS,
   },
 };

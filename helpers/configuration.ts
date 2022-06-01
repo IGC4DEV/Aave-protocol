@@ -9,9 +9,10 @@ import {
 import { getEthersSignersAddresses, getParamPerPool } from './contracts-helpers';
 import AaveConfig from '../markets/aave';
 import AaveArcConfig from '../markets/aave-arc';
-import MaticConfig from '../markets/matic';
-import AvalancheConfig from '../markets/avalanche';
-import AmmConfig from '../markets/amm';
+import AaveCasinoConfig from '../markets/aave-casino';
+import AaveCasinoMaticConfig from '../markets/aave-casino-matic';
+//import AvalancheConfig from '../markets/avalanche';
+//import AmmConfig from '../markets/amm';
 
 import { CommonsConfig } from '../markets/aave/commons';
 import { DRE, filterMapBy } from './misc-utils';
@@ -22,26 +23,31 @@ import { deployWETHMocked } from './contracts-deployments';
 export enum ConfigNames {
   Commons = 'Commons',
   Aave = 'Aave',
-  Matic = 'Matic',
+  CasinoMatic = 'CasinoMatic',
   Amm = 'Amm',
   Arc = 'Arc',
-  Avalanche = 'Avalanche'
+  Avalanche = 'Avalanche',
+  Casino = 'Casino'
 }
 
 export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
   switch (configName) {
     case ConfigNames.Aave:
       return AaveConfig;
-    case ConfigNames.Matic:
-      return MaticConfig;
+    case ConfigNames.CasinoMatic:
+      return AaveCasinoMaticConfig;
+    /*
     case ConfigNames.Amm:
       return AmmConfig;
-      case ConfigNames.Avalanche:
-        return AvalancheConfig;
+    case ConfigNames.Avalanche:
+      return AvalancheConfig;
+      */
     case ConfigNames.Commons:
       return CommonsConfig;
     case ConfigNames.Arc:
       return AaveArcConfig;
+    case ConfigNames.Casino:
+      return AaveCasinoConfig;
     default:
       throw new Error(
         `Unsupported pool configuration: ${configName} is not one of the supported configs ${Object.values(
@@ -60,17 +66,25 @@ export const getReservesConfigByPool = (pool: AavePools): iMultiPoolsAssets<IRes
       [AavePools.proto]: {
         ...AaveConfig.ReservesConfig,
       },
+      /*
       [AavePools.amm]: {
         ...AmmConfig.ReservesConfig,
       },
       [AavePools.matic]: {
         ...MaticConfig.ReservesConfig,
       },
+      [AavePools.avalanche]: {
+        ...AvalancheConfig.ReservesConfig,
+      },
+      */
+      [AavePools.casinoMatic]: {
+        ...AaveCasinoMaticConfig.ReservesConfig,
+      },
       [AavePools.arc]: {
         ...AaveArcConfig.ReservesConfig,
       },
-      [AavePools.avalanche]: {
-        ...AvalancheConfig.ReservesConfig,
+      [AavePools.casino]: {
+        ...AaveCasinoConfig.ReservesConfig,
       }
     },
     pool
