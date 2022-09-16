@@ -24,7 +24,7 @@ task('arc:mainnet', 'Deploy development enviroment')
     await DRE.run('deploy-permission-manager', { pool: POOL_NAME });
 
     console.log('3. Deploy lending pool');
-    await DRE.run('full:deploy-lending-pool', { pool: POOL_NAME , permissioned: true });
+    await DRE.run('full:deploy-lending-pool', { pool: POOL_NAME });
 
     console.log('4. Deploy oracles');
     await DRE.run('full:deploy-oracles', { pool: POOL_NAME });

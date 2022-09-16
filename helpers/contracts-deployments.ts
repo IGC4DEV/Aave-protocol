@@ -45,7 +45,6 @@ import {
   ReserveLogicFactory,
   SelfdestructTransferFactory,
   StableDebtTokenFactory,
-  UiIncentiveDataProviderV2Factory,
   UniswapLiquiditySwapAdapterFactory,
   UniswapRepayAdapterFactory,
   VariableDebtTokenFactory,
@@ -59,6 +58,9 @@ import {
   PermissionedWETHGatewayFactory,
   UiPoolDataProviderV2Factory,
   UiPoolDataProviderV2V3Factory,
+  UiIncentiveDataProviderV2V3,
+  UiIncentiveDataProviderV2Factory,
+  CasinoPermissionedLendingPoolFactory,
 } from '../types';
 import {
   withSaveAndVerify,
@@ -85,48 +87,57 @@ export const deployUiIncentiveDataProviderV2 = async (verify?: boolean) =>
     verify
   );
 
-  export const deployUiPoolDataProvider = async (
-    [incentivesController, aaveOracle]: [tEthereumAddress, tEthereumAddress],
-    verify?: boolean
-  ) => {
-    const id = eContractid.UiPoolDataProvider;
-    const args: string[] = [incentivesController, aaveOracle];
-    const instance = await deployContract<UiPoolDataProvider>(id, args);
-    if (verify) {
-      await verifyContract(id, instance, args);
-    }
-    return instance;
-  };
+export const deployUiIncentiveDataProviderV2V3 = async (verify?: boolean) => {
+  const id = eContractid.UiIncentiveDataProviderV2V3;
+  const instance = await deployContract<UiIncentiveDataProviderV2V3>(id, []);
+  if (verify) {
+    await verifyContract(id, instance, []);
+  }
+  return instance;
+};
 
-  export const deployUiPoolDataProviderV2 = async (
-    chainlinkAggregatorProxy: string,
-    chainlinkEthUsdAggregatorProxy: string,
-    verify?: boolean
-  ) =>
-    withSaveAndVerify(
-      await new UiPoolDataProviderV2Factory(await getFirstSigner()).deploy(
-        chainlinkAggregatorProxy,
-        chainlinkEthUsdAggregatorProxy
-      ),
-      eContractid.UiPoolDataProvider,
-      [chainlinkAggregatorProxy, chainlinkEthUsdAggregatorProxy],
-      verify
-    );
+export const deployUiPoolDataProviderV2 = async (
+  chainlinkAggregatorProxy: string,
+  chainlinkEthUsdAggregatorProxy: string,
+  verify?: boolean
+) =>
+  withSaveAndVerify(
+    await new UiPoolDataProviderV2Factory(await getFirstSigner()).deploy(
+      chainlinkAggregatorProxy,
+      chainlinkEthUsdAggregatorProxy
+    ),
+    eContractid.UiPoolDataProvider,
+    [chainlinkAggregatorProxy, chainlinkEthUsdAggregatorProxy],
+    verify
+  );
 
-    export const deployUiPoolDataProviderV2V3 = async (
-      chainlinkAggregatorProxy: string,
-      chainlinkEthUsdAggregatorProxy: string,
-      verify?: boolean
-    ) =>
-      withSaveAndVerify(
-        await new UiPoolDataProviderV2V3Factory(await getFirstSigner()).deploy(
-          chainlinkAggregatorProxy,
-          chainlinkEthUsdAggregatorProxy
-        ),
-        eContractid.UiPoolDataProvider,
-        [chainlinkAggregatorProxy, chainlinkEthUsdAggregatorProxy],
-        verify
-      );
+export const deployUiPoolDataProviderV2V3 = async (
+  chainlinkAggregatorProxy: string,
+  chainlinkEthUsdAggregatorProxy: string,
+  verify?: boolean
+) =>
+  withSaveAndVerify(
+    await new UiPoolDataProviderV2V3Factory(await getFirstSigner()).deploy(
+      chainlinkAggregatorProxy,
+      chainlinkEthUsdAggregatorProxy
+    ),
+    eContractid.UiPoolDataProvider,
+    [chainlinkAggregatorProxy, chainlinkEthUsdAggregatorProxy],
+    verify
+  );
+
+export const deployUiPoolDataProvider = async (
+  [incentivesController, aaveOracle]: [tEthereumAddress, tEthereumAddress],
+  verify?: boolean
+) => {
+  const id = eContractid.UiPoolDataProvider;
+  const args: string[] = [incentivesController, aaveOracle];
+  const instance = await deployContract<UiPoolDataProvider>(id, args);
+  if (verify) {
+    await verifyContract(id, instance, args);
+  }
+  return instance;
+};
 
 const readArtifact = async (id: string) => {
   if (DRE.network.name === eEthereumNetwork.buidlerevm) {
@@ -245,9 +256,12 @@ export const deployLendingPool = async (verify?: boolean, lendingPoolImpl?: eCon
   const libraries = await deployAaveLibraries(verify);
 
   let instance;
-  switch(lendingPoolImpl) {
+  switch (lendingPoolImpl) {
     case eContractid.PermissionedLendingPool:
-      instance = await new PermissionedLendingPoolFactory(libraries, await getFirstSigner()).deploy();
+      instance = await new PermissionedLendingPoolFactory(
+        libraries,
+        await getFirstSigner()
+      ).deploy();
       break;
     case eContractid.LendingPool:
     default:
@@ -413,41 +427,38 @@ export const deployVariableDebtToken = async (
 };
 
 export const deployStableDebtTokenByType = async (type: string) => {
-
   //if no instance type is provided, deploying the generic one by default
-  if(!type) {
+  if (!type) {
     return deployGenericStableDebtToken();
   }
 
-  switch(type) {
+  switch (type) {
     case eContractid.StableDebtToken:
       return deployGenericStableDebtToken();
     case eContractid.PermissionedStableDebtToken:
       return deployPermissionedStableDebtToken();
     default:
-      console.log("Cant find the debt token type ", type);
-      throw "Invalid debt token type";
+      console.log('Cant find the debt token type ', type);
+      throw 'Invalid debt token type';
   }
-}
+};
 
 export const deployVariableDebtTokenByType = async (type: string, verify?: boolean) => {
-
   //if no instance type is provided, deploying the generic one by default
-  if(!type) {
+  if (!type) {
     return deployGenericVariableDebtToken(verify);
   }
 
-  switch(type) {
+  switch (type) {
     case eContractid.VariableDebtToken:
       return deployGenericVariableDebtToken(verify);
     case eContractid.PermissionedVariableDebtToken:
       return deployPermissionedVariableDebtToken();
     default:
-      console.log("[variable]Cant find token type ", type);
-      throw "Invalid debt token type";
+      console.log('[variable]Cant find token type ', type);
+      throw 'Invalid debt token type';
   }
-}
-
+};
 
 export const deployPermissionedStableDebtToken = async () =>
   withSaveAndVerify(
@@ -639,7 +650,6 @@ export const deployPermissionedWETHGateway = async (args: [tEthereumAddress], ve
     verify
   );
 
-
 export const authorizeWETHGateway = async (
   wethGateWay: tEthereumAddress,
   lendingPool: tEthereumAddress
@@ -768,8 +778,8 @@ export const deployFlashLiquidationAdapter = async (
     [],
     verify
   );
-
-export const chooseATokenDeployment = (id: eContractid) => {
+  
+  export const chooseATokenDeployment = (id: eContractid) => {
   switch (id) {
     case eContractid.AToken:
       return deployGenericATokenImpl;

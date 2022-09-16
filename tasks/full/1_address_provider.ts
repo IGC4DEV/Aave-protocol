@@ -29,7 +29,7 @@ task(
         poolConfig.ProviderRegistry,
         <eNetwork>DRE.network.name
       );
-
+    
       await DRE.run('add-market-to-registry', {
         pool,
         addressesProvider: addressesProvider.address,

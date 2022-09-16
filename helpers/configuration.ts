@@ -9,10 +9,11 @@ import {
 import { getEthersSignersAddresses, getParamPerPool } from './contracts-helpers';
 import AaveConfig from '../markets/aave';
 import AaveArcConfig from '../markets/aave-arc';
-import AaveCasinoConfig from '../markets/aave-casino';
-import AaveCasinoMaticConfig from '../markets/aave-casino-matic';
-//import AvalancheConfig from '../markets/avalanche';
-//import AmmConfig from '../markets/amm';
+import AaveCasinoConfig from '../markets/casino';
+import AaveCasinoMaticConfig from '../markets/casino-matic';
+import MaticConfig from '../markets/matic';
+import AvalancheConfig from '../markets/avalanche';
+import AmmConfig from '../markets/amm';
 
 import { CommonsConfig } from '../markets/aave/commons';
 import { DRE, filterMapBy } from './misc-utils';
@@ -24,6 +25,7 @@ export enum ConfigNames {
   Commons = 'Commons',
   Aave = 'Aave',
   CasinoMatic = 'CasinoMatic',
+  Matic = 'Matic',
   Amm = 'Amm',
   Arc = 'Arc',
   Avalanche = 'Avalanche',
@@ -36,12 +38,10 @@ export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
       return AaveConfig;
     case ConfigNames.CasinoMatic:
       return AaveCasinoMaticConfig;
-    /*
     case ConfigNames.Amm:
       return AmmConfig;
-    case ConfigNames.Avalanche:
-      return AvalancheConfig;
-      */
+      case ConfigNames.Avalanche:
+        return AvalancheConfig;
     case ConfigNames.Commons:
       return CommonsConfig;
     case ConfigNames.Arc:
@@ -66,17 +66,12 @@ export const getReservesConfigByPool = (pool: AavePools): iMultiPoolsAssets<IRes
       [AavePools.proto]: {
         ...AaveConfig.ReservesConfig,
       },
-      /*
       [AavePools.amm]: {
         ...AmmConfig.ReservesConfig,
       },
       [AavePools.matic]: {
         ...MaticConfig.ReservesConfig,
       },
-      [AavePools.avalanche]: {
-        ...AvalancheConfig.ReservesConfig,
-      },
-      */
       [AavePools.casinoMatic]: {
         ...AaveCasinoMaticConfig.ReservesConfig,
       },
@@ -85,6 +80,9 @@ export const getReservesConfigByPool = (pool: AavePools): iMultiPoolsAssets<IRes
       },
       [AavePools.casino]: {
         ...AaveCasinoConfig.ReservesConfig,
+      },
+      [AavePools.avalanche]: {
+        ...AvalancheConfig.ReservesConfig,
       }
     },
     pool

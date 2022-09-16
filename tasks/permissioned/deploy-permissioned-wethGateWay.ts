@@ -32,9 +32,9 @@ task(`full-deploy-permissioned-weth-gateway`, `Deploys the ${CONTRACT_NAME} cont
     
     await waitForTx(await permissionManager.addPermissionAdmins([deployerAddress]));
 
-    await waitForTx(await permissionManager.connect(deployer).addPermissions([0, 1, 2],[deployerAddress, deployerAddress, deployerAddress] ));
+    await waitForTx(await permissionManager.connect(deployer).addPermissions([0, 1],[deployerAddress, deployerAddress] ));
 
-    //await waitForTx(await permissionManager.removePermissionAdmins([deployerAddress]));
+    await waitForTx(await permissionManager.removePermissionAdmins([deployerAddress]));
     
     console.log(`${CONTRACT_NAME}.address`, wethGateWay.address);
     console.log(`\tFinished ${CONTRACT_NAME} deployment`);

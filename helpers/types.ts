@@ -10,11 +10,12 @@ export enum eEthereumNetwork {
   buidlerevm = 'buidlerevm',
   kovan = 'kovan',
   ropsten = 'ropsten',
-  rinkeby = 'rinkeby',
   main = 'main',
   coverage = 'coverage',
   hardhat = 'hardhat',
+
   tenderly = 'tenderly',
+  goerli = 'goerli',
 }
 
 export enum ePolygonNetwork {
@@ -34,23 +35,23 @@ export enum eAvalancheNetwork {
 export enum EthereumNetworkNames {
   kovan = 'kovan',
   ropsten = 'ropsten',
-  rinkeby = 'rinkeby',
   main = 'main',
   matic = 'matic',
   mumbai = 'mumbai',
   xdai = 'xdai',
   avalanche = 'avalanche',
   fuji = 'fuji',
+  goerli = 'goerli',
 }
 
 export enum AavePools {
   proto = 'proto',
-  //matic = 'matic',
-  //amm = 'amm',
+  matic = 'matic',
+  amm = 'amm',
   arc = 'arc',
+  avalanche = 'avalanche',
   casino = 'casino',
-  casinoMatic = 'casinoMatic'
-  //avalanche = 'avalanche',
+  casinoMatic = 'casinoMatic',
 }
 
 export enum eContractid {
@@ -89,6 +90,8 @@ export enum eContractid {
   StableAndVariableTokensHelper = 'StableAndVariableTokensHelper',
   ATokensAndRatesHelper = 'ATokensAndRatesHelper',
   UiPoolDataProvider = 'UiPoolDataProvider',
+  UiPoolDataProviderV2 = 'UiPoolDataProviderV2',
+  UiPoolDataProviderV2V3 = 'UiPoolDataProviderV2V3',
   WETHGateway = 'WETHGateway',
   WETH = 'WETH',
   WETHMocked = 'WETHMocked',
@@ -109,9 +112,9 @@ export enum eContractid {
   MockParaSwapAugustus = 'MockParaSwapAugustus',
   MockParaSwapAugustusRegistry = 'MockParaSwapAugustusRegistry',
   ParaSwapLiquiditySwapAdapter = 'ParaSwapLiquiditySwapAdapter',
+  UiIncentiveDataProviderV2V3 = 'UiIncentiveDataProviderV2V3',
   UiIncentiveDataProviderV2 = 'UiIncentiveDataProviderV2',
-  UiPoolDataProviderV2 = 'UiPoolDataProviderV2',
-  UiPoolDataProviderV2V3 = 'UiPoolDataProviderV2V3',
+  CasinoPermissionedLendingPool = 'CasinoPermissionedLendingPool',
 }
 
 /*
@@ -203,18 +206,6 @@ export enum ProtocolErrors {
   RC_INVALID_DECIMALS = '70',
   RC_INVALID_RESERVE_FACTOR = '71',
   LPAPR_INVALID_ADDRESSES_PROVIDER_ID = '72',
-  VL_INCONSISTENT_FLASHLOAN_PARAMS = '73',
-  LP_INCONSISTENT_PARAMS_LENGTH = '74',
-  UL_INVALID_INDEX = '77',
-  LP_NOT_CONTRACT = '78',
-  SDT_STABLE_DEBT_OVERFLOW = '79',
-  SDT_BURN_EXCEEDS_BALANCE = '80',
-  PLP_DEPOSITOR_UNAUTHORIZED = '81',
-  PLP_BORROWER_UNAUTHORIZED = '82',
-  PLP_LIQUIDATOR_UNAUTHORIZED = '83',
-  PLP_CALLER_NOT_STABLE_RATE_MANAGER = '84',
-  PLP_USER_UNAUTHORIZED = '85',
-  PLP_INVALID_PERMISSION_ADMIN = '86',
 
   // old
 
@@ -309,10 +300,8 @@ export type iAavePoolAssets<T> = Pick<
   | 'xSUSHI'
 >;
 
-export type iAaveArcPoolAssets<T> = Pick<
-  iAssetsWithoutUSD<T>,
-  'USDC' | 'WBTC' | 'WETH' | 'AAVE'
->;
+export type iAaveArcPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 'LINK' | 'WBTC' | 'WETH'>;
+
 
 export type iAaveCasinoPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 
   | 'DAI'
@@ -463,10 +452,10 @@ export interface iEthereumParamsPerNetwork<T> {
   [eEthereumNetwork.buidlerevm]: T;
   [eEthereumNetwork.kovan]: T;
   [eEthereumNetwork.ropsten]: T;
-  [eEthereumNetwork.rinkeby]: T;
   [eEthereumNetwork.main]: T;
   [eEthereumNetwork.hardhat]: T;
   [eEthereumNetwork.tenderly]: T;
+  [eEthereumNetwork.goerli]: T;
 }
 
 export interface iPolygonParamsPerNetwork<T> {
@@ -485,12 +474,12 @@ export interface iAvalancheParamsPerNetwork<T> {
 
 export interface iParamsPerPool<T> {
   [AavePools.proto]: T;
-  //[AavePools.matic]: T;
-  //[AavePools.amm]: T;
+  [AavePools.matic]: T;
+  [AavePools.amm]: T;
   [AavePools.casino]: T;
   [AavePools.arc]: T;
   [AavePools.casinoMatic]: T;
-  //[AavePools.avalanche]: T;
+  [AavePools.avalanche]: T;
 }
 
 export interface iBasicDistributionParams {
@@ -518,7 +507,7 @@ export interface IProtocolGlobalConfig {
 }
 
 export interface IMocksConfig {
-  AllAssetsInitialPrices: iAssetBase<string>;
+  AllAssetsInitialPrices: { [key: string]: string };
 }
 
 export interface ILendingRateOracleRatesCommon {

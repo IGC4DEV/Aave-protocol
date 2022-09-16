@@ -18,7 +18,7 @@ task(`deploy-${eContractid.UiPoolDataProviderV2}`, `Deploys the UiPoolDataProvid
     );
     console.log(
       `\n- UiPoolDataProviderV2 eth/usd price aggregator: ${
-        chainlinkEthUsdAggregatorProxy[localBRE.network.name]
+        chainlinkAggregatorProxy[localBRE.network.name]
       }`
     );
     console.log(`\n- UiPoolDataProviderV2 deployment`);

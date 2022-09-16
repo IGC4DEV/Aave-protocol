@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 
 import {ILendingPoolAddressesProvider} from '../../interfaces/ILendingPoolAddressesProvider.sol';
 
-interface IUiIncentiveDataProviderV2 {
+interface IUiIncentiveDataProviderV3 {
   struct AggregatedReserveIncentiveData {
     address underlyingAsset;
     IncentiveData aIncentiveData;
@@ -13,15 +13,23 @@ interface IUiIncentiveDataProviderV2 {
   }
 
   struct IncentiveData {
+    address tokenAddress;
+    address incentiveControllerAddress;
+    RewardInfo[] rewardsTokenInformation;
+  }
+
+  struct RewardInfo {
+    string rewardTokenSymbol;
+    address rewardTokenAddress;
+    address rewardOracleAddress;
     uint256 emissionPerSecond;
     uint256 incentivesLastUpdateTimestamp;
     uint256 tokenIncentivesIndex;
     uint256 emissionEndTimestamp;
-    address tokenAddress;
-    address rewardTokenAddress;
-    address incentiveControllerAddress;
+    int256 rewardPriceFeed;
     uint8 rewardTokenDecimals;
     uint8 precision;
+    uint8 priceFeedDecimals;
   }
 
   struct UserReserveIncentiveData {
@@ -32,11 +40,19 @@ interface IUiIncentiveDataProviderV2 {
   }
 
   struct UserIncentiveData {
-    uint256 tokenincentivesUserIndex;
-    uint256 userUnclaimedRewards;
     address tokenAddress;
-    address rewardTokenAddress;
     address incentiveControllerAddress;
+    UserRewardInfo[] userRewardsInformation;
+  }
+
+  struct UserRewardInfo {
+    string rewardTokenSymbol;
+    address rewardOracleAddress;
+    address rewardTokenAddress;
+    uint256 userUnclaimedRewards;
+    uint256 tokenIncentivesUserIndex;
+    int256 rewardPriceFeed;
+    uint8 priceFeedDecimals;
     uint8 rewardTokenDecimals;
   }
 

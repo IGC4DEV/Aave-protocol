@@ -26,7 +26,6 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
     try {
       await DRE.run('set-DRE');
       const network = <eNetwork>DRE.network.name;
-      console.log('a')
       const poolConfig = loadPoolConfig(pool);
       const {
         ProtocolGlobalParams: { UsdAddress },
@@ -34,36 +33,26 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
         FallbackOracle,
         ChainlinkAggregator,
       } = poolConfig as ICommonConfiguration;
-      console.log('a')
-      console.log(poolConfig)
       const lendingRateOracles = getLendingRateOracles(poolConfig);
-      console.log('a')
       const addressesProvider = await getLendingPoolAddressesProvider();
-      console.log('a')
       const admin = await getGenesisPoolAdmin(poolConfig);
-      console.log('a')
       const aaveOracleAddress = getParamPerNetwork(poolConfig.AaveOracle, network);
-      console.log('a')
       const lendingRateOracleAddress = getParamPerNetwork(poolConfig.LendingRateOracle, network);
-      console.log('a')
       const reserveAssets = await getParamPerNetwork(ReserveAssets, network);
-      console.log('a')
       const chainlinkAggregators = await getParamPerNetwork(ChainlinkAggregator, network);
-      console.log('a')
       const tokensToWatch: SymbolMap<string> = {
         ...reserveAssets,
         //USD: UsdAddress,
       };
-      console.log('a')
+      console.log(tokensToWatch)
       const [tokens, aggregators] = getPairsTokenAggregator(
         tokensToWatch,
         chainlinkAggregators,
         poolConfig.OracleQuoteCurrency
       );
-      console.log('a')
       let fallbackOracleAddress = await getParamPerNetwork(FallbackOracle, network);
       let CasinoOracle;
-      /*if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic ) {
+      if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic ) {
         CasinoOracle = await deployCasinoMarketOracle(verify);
         fallbackOracleAddress = CasinoOracle.address;
 
@@ -78,10 +67,11 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
             dropTokens.map((token) => assetCurrencies[token])
           )
         );
-      }*/
+      }
 
       let aaveOracle: AaveOracle;
       let lendingRateOracle: LendingRateOracle;
+
       if (notFalsyOrZeroAddress(aaveOracleAddress)) {
         aaveOracle = await getAaveOracle(aaveOracleAddress);
         await waitForTx(await aaveOracle.setAssetSources(tokens, aggregators));
@@ -98,9 +88,9 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
         );
         await waitForTx(await aaveOracle.setAssetSources(tokens, aggregators));
       }
-      /*if (pool === ConfigNames.Casino || pool === ConfigNames.Casino ) {
+      if (pool === ConfigNames.Casino || pool === ConfigNames.Casino ) {
         await waitForTx(await CasinoOracle.setAaveOracle(aaveOracle.address));
-      }*/
+      }
       if (notFalsyOrZeroAddress(lendingRateOracleAddress)) {
         lendingRateOracle = await getLendingRateOracle(lendingRateOracleAddress);
       } else {

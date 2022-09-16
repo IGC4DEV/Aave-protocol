@@ -30,6 +30,7 @@ import { usingPolygon, verifyAtPolygon } from './polygon-utils';
 import { ConfigNames, loadPoolConfig } from './configuration';
 import { ZERO_ADDRESS } from './constants';
 import { getDefenderRelaySigner, usingDefender } from './defender-utils';
+import AaveCasinoMaticConfig from '../markets/casino-matic';
 
 export type MockTokenMap = { [symbol: string]: MintableERC20 };
 
@@ -145,7 +146,7 @@ export const linkBytecode = (artifact: BuidlerArtifact | Artifact, libraries: an
 };
 
 export const getParamPerNetwork = <T>(param: iParamsPerNetwork<T>, network: eNetwork) => {
-  const { main, ropsten, rinkeby, kovan, coverage, buidlerevm, tenderly } =
+  const { main, ropsten, kovan, coverage, buidlerevm, tenderly, goerli } =
     param as iEthereumParamsPerNetwork<T>;
   const { matic, mumbai } = param as iPolygonParamsPerNetwork<T>;
   const { xdai } = param as iXDaiParamsPerNetwork<T>;
@@ -165,9 +166,7 @@ export const getParamPerNetwork = <T>(param: iParamsPerNetwork<T>, network: eNet
       return kovan;
     case eEthereumNetwork.ropsten:
       return ropsten;
-      case eEthereumNetwork.rinkeby:
-        return rinkeby;
-      case eEthereumNetwork.main:
+    case eEthereumNetwork.main:
       return main;
     case eEthereumNetwork.tenderly:
       return tenderly;
@@ -181,6 +180,8 @@ export const getParamPerNetwork = <T>(param: iParamsPerNetwork<T>, network: eNet
       return avalanche;
     case eAvalancheNetwork.fuji:
       return fuji;
+    case eEthereumNetwork.goerli:
+      return goerli;
   }
 };
 
@@ -194,14 +195,26 @@ export const getOptionalParamAddressPerNetwork = (
   return getParamPerNetwork(param, network);
 };
 
-export const getParamPerPool = <T>({ proto, arc, casino }: iParamsPerPool<T>, pool: AavePools) => {
+export const getParamPerPool = <T>(
+  { proto, casino, casinoMatic, amm, matic, arc, avalanche }: iParamsPerPool<T>,
+  pool: AavePools
+) => {
   switch (pool) {
     case AavePools.proto:
       return proto;
+    case AavePools.amm:
+      return amm;
+    case AavePools.matic:
+      return matic;
+    case AavePools.casinoMatic:
+      return casinoMatic;
     case AavePools.arc:
       return arc;
     case AavePools.casino:
       return casino;
+    case AavePools.avalanche:
+      return avalanche;
+
     default:
       return proto;
   }
@@ -378,14 +391,10 @@ export const verifyContract = async (
   instance: Contract,
   args: (string | string[])[]
 ) => {
-  if (usingPolygon()) {
-    await verifyAtPolygon(id, instance, args);
-  } else {
-    if (usingTenderly()) {
-      await verifyAtTenderly(id, instance);
-    }
-    await verifyEtherscanContract(instance.address, args);
+  if (usingTenderly()) {
+    await verifyAtTenderly(id, instance);
   }
+  await verifyEtherscanContract(instance.address, args);
   return instance;
 };
 
