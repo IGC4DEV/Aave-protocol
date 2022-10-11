@@ -33,8 +33,6 @@ const SKIP_LOAD = process.env.SKIP_LOAD === 'true';
 const DEFAULT_BLOCK_GAS_LIMIT = 8000000;
 const DEFAULT_GAS_MUL = 5;
 const HARDFORK = 'istanbul';
-const ALCHEMY_KEY = process.env.ALCHEMY_KEY;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || '';
 const MNEMONIC_PATH = "m/44'/60'/0'/0";
 const MNEMONIC = process.env.MNEMONIC || '';
@@ -42,7 +40,7 @@ const UNLIMITED_BYTECODE_SIZE = process.env.UNLIMITED_BYTECODE_SIZE === 'true';
 
 // Prevent to load scripts before compilation and typechain
 if (!SKIP_LOAD) {
-  ['misc', 'migrations', 'dev', 'full', 'verifications', 'deployments', 'permissioned', 'helpers', 'perso'].forEach(
+  ['misc', 'migrations', 'dev', 'full', 'verifications', 'deployments', 'helpers'].forEach(
     (folder) => {
       const tasksPath = path.join(__dirname, 'tasks', folder);
       fs.readdirSync(tasksPath)
@@ -58,7 +56,7 @@ require(`${path.join(__dirname, 'tasks/misc')}/set-bre.ts`);
 
 const getCommonNetworkConfig = (networkName: eNetwork, networkId: number) => ({
   url: NETWORKS_RPC_URL[networkName],
-  // hardfork: HARDFORK,
+  hardfork: HARDFORK,
   blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
   gasMultiplier: DEFAULT_GAS_MUL,
   gasPrice: NETWORKS_DEFAULT_GAS[networkName],
@@ -89,7 +87,7 @@ const buidlerConfig: HardhatUserConfig = {
     apiKey: ETHERSCAN_KEY,
   },
   mocha: {
-    timeout: 10000000000,
+    timeout: 0,
   },
   tenderly: {
     project: process.env.TENDERLY_PROJECT || '',
@@ -112,7 +110,7 @@ const buidlerConfig: HardhatUserConfig = {
     fuji: getCommonNetworkConfig(eAvalancheNetwork.fuji, 43113),
     goerli: getCommonNetworkConfig(eEthereumNetwork.goerli, 5),
     hardhat: {
-      // hardfork: 'berlin',
+      hardfork: 'berlin',
       blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
       gas: DEFAULT_BLOCK_GAS_LIMIT,
       gasPrice: 8000000000,
@@ -127,7 +125,7 @@ const buidlerConfig: HardhatUserConfig = {
       forking: buildForkConfig(),
     },
     buidlerevm_docker: {
-      // hardfork: 'berlin',
+      hardfork: 'berlin',
       blockGasLimit: 9500000,
       gas: 9500000,
       gasPrice: 8000000000,

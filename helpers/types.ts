@@ -305,7 +305,9 @@ export type iAaveArcPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 'LINK' | 'WBTC' |
 
 export type iAaveCasinoPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 
   | 'DAI'
-  | 'CAST'>;
+  | 'CAST'
+  | 'BUSD'
+  | 'USDT'>;
 
 export type iLpPoolAssets<T> = Pick<
   iAssetsWithoutUSD<T>,

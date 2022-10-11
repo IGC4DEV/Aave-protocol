@@ -35,6 +35,7 @@ import {
   PermissionedWETHGatewayFactory,
   FlashLiquidationAdapterFactory,
   PermissionManagerFactory,
+  CasinoMarketOracleFactory,
 } from '../types';
 import { IERC20DetailedFactory } from '../types/IERC20DetailedFactory';
 import { getEthersSigners, MockTokenMap } from './contracts-helpers';
@@ -396,6 +397,12 @@ export const getAddressById = async (id: string): Promise<tEthereumAddress | und
 
 export const getAaveOracle = async (address?: tEthereumAddress) =>
   await AaveOracleFactory.connect(
+    address || (await getDb().get(`${eContractid.AaveOracle}.${DRE.network.name}`).value()).address,
+    await getFirstSigner()
+  );
+
+export const getCasinoOracle = async (address?: tEthereumAddress) =>
+  await CasinoMarketOracleFactory.connect(
     address || (await getDb().get(`${eContractid.AaveOracle}.${DRE.network.name}`).value()).address,
     await getFirstSigner()
   );

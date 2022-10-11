@@ -1,33 +1,30 @@
 // docker-compose run contracts-env npm run console:fork
 
-run('casino:mainnet')
 run("set-DRE")
 const contractGetters = require('./helpers/contracts-getters');
-const init = require('./helpers/init-helpers');
-const init2 = require('./helpers/init-helpers');
-const c = require('./helpers/configuration');
-const mh = require('./helpers/mock-helpers');
-const types = require('./helpers/types');
-const pa_abi = require('./abi/PoolAdmin.json')
-const confi_abi = require('./abi/Configurator.json')
-const contractHelpers = require('./helpers/contracts-helpers');
-const mu = require('./helpers/misc-utils');
-const oracle_abi = require('./artifacts/contracts/misc/CasinoOracle.sol/CasinoMarketOracle.json')
-const ao = require('./artifacts/contracts/misc/AaveOracle.sol/AaveOracle.json')
-const lp = require('./artifacts/contracts/protocol/lendingpool/PermissionedLendingPool.sol/PermissionedLendingPool.json')
-const conf = require('./artifacts/contracts/protocol/lendingpool/LendingPoolConfigurator.sol/LendingPoolConfigurator.json')
-const p = require('./artifacts/contracts/protocol/configuration/PermissionManager.sol/PermissionManager.json')
-const abi_price = require('./CasinoTokenPrice.json')
+const cdeploy = require('./helpers/contracts-deployments');
 
-let foracle = new ethers.Contract("0x0583FfdC8cae463828fb79F7469f429D5e7b5667", oracle_abi.abi, signer0)
-let aoracle = new ethers.Contract("0xd1d79f3dA1B30ec2195511BAaB81A6dF01A66FE6", ao.abi, signer)
-let lenp = new ethers.Contract("0xe4CDEdcCBcA2C239f7b5a9b299B4c08F39D65741", lp.abi, signer0)
-let lconf = new ethers.Contract("0x664eD6C81060aa4B5689ceED200aBD51C93017A0", conf.abi, signer)
-let permit = new ethers.Contract("0x746e7f249e3649eB1f11f609d4ADDeABB6D0D0D6", p.abi, signer0)
-let casinotoken = new ethers.Contract("0x746e7f249e3649eB1f11f609d4ADDeABB6D0D0D6", abi_price.abi, signer0)
+
+const contractHelpers = require('./helpers/contracts-helpers');
+
+const conf = require('./artifacts/contracts/protocol/lendingpool/LendingPoolConfigurator.sol/LendingPoolConfigurator.json')
+
+// !here
+const signer = await ethers.provider.getSigner();
+
+// !here
+let lconf = new ethers.Contract("0xb76C18D61D0760e628545A62FED8332c65747c14", conf.abi, signer)
+const lp = await contractGetters.getLendingPool("0x228d65503187621807517EaC8ed6FCF88aBb2998");
+
+
+
+
+
+// 0xa7c3Bf25FFeA8605B516Cf878B7435fe1768c89b
+
 
 await network.provider.request({ method: "hardhat_impersonateAccount",  params: ["0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810"]});
-const signer = await ethers.provider.getSigner();
+// !here
 await signer.sendTransaction({value: ethers.utils.parseUnits("2"), to: "0x2012b02574F32a96b9CFb8Ba7Fdfd589D5c70F50"});
 
 const lendingPool = await contractGetters.getLendingPool("0xe1437472335FaEdd1AF07C8382458140B563b4d4")

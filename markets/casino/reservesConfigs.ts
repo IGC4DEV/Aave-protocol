@@ -30,3 +30,31 @@ export const strategyCAST: IReserveParams = {
   variableDebtTokenImpl: eContractid.PermissionedVariableDebtToken,
   reserveFactor: '1000',
 };
+
+export const strategyBUSD: IReserveParams = {
+  strategy: rateStrategyStable,
+  baseLTVAsCollateral: '8000',
+  liquidationThreshold: '8500',
+  liquidationBonus: '10500',
+  borrowingEnabled: true,
+  stableBorrowRateEnabled: true,
+  reserveDecimals: '18',
+  aTokenImpl: eContractid.AToken,
+  stableDebtTokenImpl: eContractid.PermissionedStableDebtToken,
+  variableDebtTokenImpl: eContractid.PermissionedVariableDebtToken,
+  reserveFactor: '1000',
+};
+
+export const strategyUSDT: IReserveParams = {
+  strategy: rateStrategyStable,
+  baseLTVAsCollateral: '8000',
+  liquidationThreshold: '8500',
+  liquidationBonus: '10500',
+  borrowingEnabled: true,
+  stableBorrowRateEnabled: true,
+  reserveDecimals: '18',
+  aTokenImpl: eContractid.AToken,
+  stableDebtTokenImpl: eContractid.PermissionedStableDebtToken,
+  variableDebtTokenImpl: eContractid.PermissionedVariableDebtToken,
+  reserveFactor: '1000',
+};

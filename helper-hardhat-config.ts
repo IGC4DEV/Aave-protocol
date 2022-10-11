@@ -87,5 +87,5 @@ export const BLOCK_TO_FORK: iParamsPerNetwork<number | undefined> = {
   [eXDaiNetwork.xdai]: undefined,
   [eAvalancheNetwork.avalanche]: undefined,
   [eAvalancheNetwork.fuji]: undefined,
-  [eEthereumNetwork.goerli]: 7403283,
+  [eEthereumNetwork.goerli]: undefined,
 };

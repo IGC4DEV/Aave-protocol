@@ -41,6 +41,12 @@ export const CommonsConfig: ICommonConfiguration = {
     DAI: {
       borrowRate: oneRay.multipliedBy(0.039).toFixed(),
     },
+    BUSD: {
+      borrowRate: oneRay.multipliedBy(0.05).toFixed(),
+    },
+    USDT: {
+      borrowRate: oneRay.multipliedBy(0.035).toFixed(),
+    },
   },
   // ----------------
   // COMMON PROTOCOL ADDRESSES ACROSS POOLS
@@ -177,6 +183,8 @@ export const CommonsConfig: ICommonConfiguration = {
     [eEthereumNetwork.goerli]: {
       'CAST': ZERO_ADDRESS,
       DAI: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d',
+      BUSD: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d',
+      USDT: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d'
     },
     [eEthereumNetwork.kovan]: {
     },
