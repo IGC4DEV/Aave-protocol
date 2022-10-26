@@ -32,15 +32,15 @@ const lendingPool = await contractGetters.getLendingPool("0xe1437472335FaEdd1AF0
 await network.provider.request({ method: "hardhat_impersonateAccount",  params: ["0x2012b02574F32a96b9CFb8Ba7Fdfd589D5c70F50"]});
 const signerPA = await ethers.provider.getSigner("0x2012b02574F32a96b9CFb8Ba7Fdfd589D5c70F50");
 
-const CAST = await contractGetters.getIErc20Detailed("0xd60062c13822DF1A1C78BcBD3D03DDED285c46Ea")
+const IMMO = await contractGetters.getIErc20Detailed("0xd60062c13822DF1A1C78BcBD3D03DDED285c46Ea")
 const DAI = await contractGetters.getIErc20Detailed("0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa")
 //const Pooladmin = new ethers.Contract("0x2012b02574F32a96b9CFb8Ba7Fdfd589D5c70F50", pa_abi, signer)
 const config = new ethers.Contract("0x752B6e3d1c9A03eB499A2C0f11000E478D954196", confi_abi, signerPA)
 await network.provider.request({ method: "hardhat_impersonateAccount",  params: ["0x3FCAe03DCdBA93dc5dDCf5cfAA33E74Bf9A47554"]});
 const signer0 = await ethers.provider.getSigner("0x3FCAe03DCdBA93dc5dDCf5cfAA33E74Bf9A47554");
-await CAST.connect(signer0).approve(lenp.address, ethers.utils.parseUnits('50000000'));
+await IMMO.connect(signer0).approve(lenp.address, ethers.utils.parseUnits('50000000'));
 await DAI.connect(signer0).approve(lenp.address, ethers.utils.parseUnits('100000000'));
-await lenp.connect(signer0).deposit(CAST.address, ethers.utils.parseUnits('500'), await signer0.getAddress(), '0');
+await lenp.connect(signer0).deposit(IMMO.address, ethers.utils.parseUnits('500'), await signer0.getAddress(), '0');
 
 //const config = await contractGetters.getLendingPoolConfiguratorProxy();
 // const CAS = await contractGetters.getIErc20Detailed("0xc774B1f116b1025A4A304096025C68913dE25fD5")
@@ -59,7 +59,7 @@ await lenp.connect(signer0).borrow(DAI.address, ethers.utils.parseUnits('500'), 
 const signer1 = signer[1]
 
 await lenp.connect(signer0).setUserUseReserveAsCollateral("0xd60062c13822DF1A1C78BcBD3D03DDED285c46Ea", true)
-await lenp.connect(signer0).withdraw(CAST.address, ethers.utils.parseUnits('20'), await signer0.getAddress())
+await lenp.connect(signer0).withdraw(IMMO.address, ethers.utils.parseUnits('20'), await signer0.getAddress())
 await lenp.connect(signer1).deposit(DAI.address, ethers.utils.parseUnits('300'), await signer1.getAddress(), '0');
 
 await lenp.connect(signer0).borrow(DAI.address, ethers.utils.parseUnits('5'),'2','0', await signer0.getAddress());

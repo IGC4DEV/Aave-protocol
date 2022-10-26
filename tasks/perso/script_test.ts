@@ -4,52 +4,49 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { impersonateAccountsHardhat } from '../../helpers/misc-utils';
 import { ethers } from 'ethers';
 
-
-
 // Require
 const contractGetters = require('../../helpers/contracts-getters');
 
-
-
-
-task("deposit", "Deposit DAI in Lending pool")
-.setAction(async (undefined, DRE) => {
+task('deposit', 'Deposit DAI in Lending pool').setAction(async (undefined, DRE) => {
   // Initialize
-  await DRE.run("set-DRE");
+  await DRE.run('set-DRE');
   // Lending Pool
   const lendingPool = await contractGetters.getLendingPool();
   // Tokens contract addresses
-  const DAI = await contractGetters.getIErc20Detailed("0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD");
+  const DAI = await contractGetters.getIErc20Detailed('0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD');
   // Create signer with DAI
   //await DRE.network.provider.request({ method: "hardhat_impersonateAccount",  params: ["0x3FCAe03DCdBA93dc5dDCf5cfAA33E74Bf9A47554"]});
-  await impersonateAccountsHardhat(["0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810"]);
+  await impersonateAccountsHardhat(['0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810']);
   // Create signer account hardhat
-  const signer = await DRE.ethers.provider.getSigner("0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810");
+  const signer = await DRE.ethers.provider.getSigner('0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810');
   // Print amount
-  console.log("DAI deposited:  100");
+  console.log('DAI deposited:  100');
   // Approve and deposit 100 DAI
-  var approve = await DAI.connect(signer).approve(lendingPool.address, DRE.ethers.utils.parseUnits('100'));
-  console.log("Approve transaction : \n", approve)
-  var deposit = await lendingPool.connect(signer).deposit(DAI.address, DRE.ethers.utils.parseUnits('100'), await signer.getAddress(), '0');
-  console.log("Deposit tx :\n", deposit);
+  var approve = await DAI.connect(signer).approve(
+    lendingPool.address,
+    DRE.ethers.utils.parseUnits('100')
+  );
+  console.log('Approve transaction : \n', approve);
+  var deposit = await lendingPool
+    .connect(signer)
+    .deposit(DAI.address, DRE.ethers.utils.parseUnits('100'), await signer.getAddress(), '0');
+  console.log('Deposit tx :\n', deposit);
 });
 
-
-
-task("balance", "Give balance in DAI and aDAI", async(undefined, DRE) => {
-  await DRE.run("set-DRE");
+task('balance', 'Give balance in DAI and aDAI', async (undefined, DRE) => {
+  await DRE.run('set-DRE');
   // Require
   const contractGetters = require('../../helpers/contracts-getters');
   // Create signer account hardhat
-  await impersonateAccountsHardhat(["0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810"]);
+  await impersonateAccountsHardhat(['0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810']);
   // Create signer account hardhat
-  const signer = await DRE.ethers.provider.getSigner("0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810");
+  const signer = await DRE.ethers.provider.getSigner('0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810');
   // Tokens contract addresses
-  const DAI = await contractGetters.getIErc20Detailed("0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD");
+  const DAI = await contractGetters.getIErc20Detailed('0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD');
   //const aDAI = await contractGetters.getIErc20Detailed(reserve.kovan.aDAI);
   //const USDT = await contractGetters.getIErc20Detailed(reserve.kovan.USDT);
   //const VDebtUSDT = await contractGetters.getVariableDebtToken(reserve.kovan.vUSDT);
-  //const SDebtUSDT = await contractGetters.getStableDebtToken(reserve.kovan.sUSDT); 
+  //const SDebtUSDT = await contractGetters.getStableDebtToken(reserve.kovan.sUSDT);
   /*
   const XDEV = await contractGetters.getIErc20Detailed(reserve.kovan.XDEV);
   const aXDEV = await contractGetters.getIErc20Detailed(reserve.kovan.aXDEV);
@@ -83,31 +80,30 @@ task("balance", "Give balance in DAI and aDAI", async(undefined, DRE) => {
 */
 });
 
-
-
-
-task("borrow", "Borrow USDT with DAI as collateral")
-.setAction(async (undefined, DRE) => {
+task('borrow', 'Borrow USDT with DAI as collateral').setAction(async (undefined, DRE) => {
   // Initialize
-  await DRE.run("set-DRE");
+  await DRE.run('set-DRE');
   // Create signer account hardhat
-  await impersonateAccountsHardhat(["0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810"]);
-  const signer = await DRE.ethers.provider.getSigner("0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810");
+  await impersonateAccountsHardhat(['0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810']);
+  const signer = await DRE.ethers.provider.getSigner('0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810');
   // Lending Pool
   const lendingPool = await contractGetters.getLendingPool();
   // Tokens contract addresses
-  const CAST = await contractGetters.getIErc20Detailed("0x00e048b690a53ED209D3d591395FAbAEdeDc3d12");
+  const IMMO = await contractGetters.getIErc20Detailed(
+    '0x00e048b690a53ED209D3d591395FAbAEdeDc3d12'
+  );
   // function borrow(address asset, uint256 amount, uint256 interestRateMode, uint16 referralCode, address onBehalfOf)
-  var borrow = await lendingPool.connect(signer).borrow(CAST.address, DRE.ethers.utils.parseUnits('100'), '2', '0', await signer.getAddress());
+  var borrow = await lendingPool
+    .connect(signer)
+    .borrow(IMMO.address, DRE.ethers.utils.parseUnits('100'), '2', '0', await signer.getAddress());
   console.log(`Borrow 50 USDT: \n`, borrow);
   //Print balance before swap
   await DRE.run('balance');
   // swap borrow rate mode
-  var swap = await lendingPool.connect(signer).swapBorrowRateMode(CAST.address, '2');
-  console.log("swap rate tx : ", swap);
+  var swap = await lendingPool.connect(signer).swapBorrowRateMode(IMMO.address, '2');
+  console.log('swap rate tx : ', swap);
   // balance
   await DRE.run('balance');
-
 });
 
 /*

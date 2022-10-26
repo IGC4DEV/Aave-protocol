@@ -14,9 +14,9 @@ export const rateStrategyStable: IInterestRateStrategyParams = {
   stableRateSlope2: '0',
 }
 
-// CAST
-export const rateStrategyCAST: IInterestRateStrategyParams = {
-  name: "rateStrategyCAST",
+// IMMO
+export const rateStrategyIMMO: IInterestRateStrategyParams = {
+  name: "rateStrategyIMMO",
   optimalUtilizationRate: new BigNumber(0.45).multipliedBy(oneRay).toFixed(),
   baseVariableBorrowRate: '0',
   variableRateSlope1: '0',

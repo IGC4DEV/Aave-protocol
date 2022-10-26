@@ -268,7 +268,7 @@ export interface iAssetBase<T> {
   STAKE: T;
   xSUSHI: T;
   WAVAX: T;
-  'CAST': T;
+  IMMO: T;
 }
 
 export type iAssetsWithoutETH<T> = Omit<iAssetBase<T>, 'ETH'>;
@@ -302,12 +302,7 @@ export type iAavePoolAssets<T> = Pick<
 
 export type iAaveArcPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 'LINK' | 'WBTC' | 'WETH'>;
 
-
-export type iAaveCasinoPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 
-  | 'DAI'
-  | 'CAST'
-  | 'BUSD'
-  | 'USDT'>;
+export type iAaveCasinoPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 'DAI' | 'IMMO' | 'BUSD' | 'USDT'>;
 
 export type iLpPoolAssets<T> = Pick<
   iAssetsWithoutUSD<T>,
@@ -594,4 +589,7 @@ export interface ITokenAddress {
   [token: string]: tEthereumAddress;
 }
 
-export type PoolConfiguration = ICommonConfiguration | IAaveConfiguration | IAaveCasinoConfiguration;
+export type PoolConfiguration =
+  | ICommonConfiguration
+  | IAaveConfiguration
+  | IAaveCasinoConfiguration;

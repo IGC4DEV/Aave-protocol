@@ -4,7 +4,7 @@ import { IAaveCasinoConfiguration, eEthereumNetwork, eContractid } from '../../h
 import { CommonsConfig } from './commons';
 import {
   strategyDAI,
-  strategyCAST,
+  strategyIMMO,
   strategyBUSD,
   strategyUSDT,
 } from './reservesConfigs';
@@ -28,7 +28,7 @@ export const AaveCasinoConfig: IAaveCasinoConfiguration = {
   LendingPoolImpl: eContractid.CasinoPermissionedLendingPool,
   ReservesConfig: {
     DAI: strategyDAI,
-    'CAST': strategyCAST,
+    'IMMO': strategyIMMO,
     BUSD: strategyBUSD,
     USDT: strategyUSDT,
   },
@@ -37,14 +37,14 @@ export const AaveCasinoConfig: IAaveCasinoConfiguration = {
     [eEthereumNetwork.hardhat]: {},
     [eEthereumNetwork.coverage]: {},
     [eEthereumNetwork.kovan]: {
-      'CAST': '0x00e048b690a53ED209D3d591395FAbAEdeDc3d12',
+      'IMMO': '0x00e048b690a53ED209D3d591395FAbAEdeDc3d12',
       DAI: KDAI,
     },
     [eEthereumNetwork.ropsten]: {},
     [eEthereumNetwork.main]: {},
     [eEthereumNetwork.tenderly]: {},
     [eEthereumNetwork.goerli]: {
-      'CAST': '0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42',
+      'IMMO': '0xe77806aE51F209c3b6490F573BB57877344BbBc9', // Old Casino Token '0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42',
       DAI: GDAI,
       BUSD: GBUSD,
       USDT: GUSDT,
@@ -55,13 +55,13 @@ export const AaveCasinoConfig: IAaveCasinoConfiguration = {
     [eEthereumNetwork.hardhat]: {},
     [eEthereumNetwork.coverage]: {},
     [eEthereumNetwork.kovan]: {
-      'CAST': "0x7812e263C6852707bA8c750eeA07556d046378d5",
+      'IMMO': "0x7812e263C6852707bA8c750eeA07556d046378d5",
     },
     [eEthereumNetwork.ropsten]: {},
     [eEthereumNetwork.main]: {},
     [eEthereumNetwork.tenderly]: {},
     [eEthereumNetwork.goerli]: {
-      'CAST': "0x883DF09dac21Db4B1B682BDC75FBd167ECDcB8f9",
+      'IMMO': "0x883DF09dac21Db4B1B682BDC75FBd167ECDcB8f9",
     },
   },
   AssetCurrencies: {
@@ -69,13 +69,13 @@ export const AaveCasinoConfig: IAaveCasinoConfiguration = {
     [eEthereumNetwork.hardhat]: {},
     [eEthereumNetwork.coverage]: {},
     [eEthereumNetwork.kovan]: {
-      'CAST': KDAI,
+      'IMMO': KDAI,
     },
     [eEthereumNetwork.ropsten]: {},
     [eEthereumNetwork.main]: {},
     [eEthereumNetwork.tenderly]: {},
     [eEthereumNetwork.goerli]: {
-      'CAST': GDAI,
+      'IMMO': GDAI,
     },
   },
 };

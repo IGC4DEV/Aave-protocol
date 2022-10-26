@@ -35,7 +35,7 @@ export const CommonsConfig: ICommonConfiguration = {
   },
   // TODO: reorg alphabetically, checking the reason of tests failing
   LendingRateOracleRatesCommon: {
-    'CAST': {
+    'IMMO': {
       borrowRate: oneRay.multipliedBy(0.03).toFixed(),
     },
     DAI: {
@@ -181,7 +181,7 @@ export const CommonsConfig: ICommonConfiguration = {
     [eEthereumNetwork.hardhat]: {},
     [eEthereumNetwork.buidlerevm]: {},
     [eEthereumNetwork.goerli]: {
-      'CAST': ZERO_ADDRESS,
+      'IMMO': ZERO_ADDRESS,
       DAI: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d',
       BUSD: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d',
       USDT: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d'
