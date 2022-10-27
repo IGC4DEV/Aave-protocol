@@ -39,8 +39,8 @@ const MNEMONIC = process.env.MNEMONIC || '';
 const UNLIMITED_BYTECODE_SIZE = process.env.UNLIMITED_BYTECODE_SIZE === 'true';
 
 // Prevent to load scripts before compilation and typechain
-if (!SKIP_LOAD) {
-  ['misc', 'migrations', 'dev', 'full', 'verifications', 'deployments', 'helpers'].forEach(
+//if (!SKIP_LOAD) {
+  ['misc', 'migrations', 'dev', 'full', 'verifications', 'deployments', 'helpers', 'perso'].forEach(
     (folder) => {
       const tasksPath = path.join(__dirname, 'tasks', folder);
       fs.readdirSync(tasksPath)
@@ -50,7 +50,7 @@ if (!SKIP_LOAD) {
         });
     }
   );
-}
+//}
 
 require(`${path.join(__dirname, 'tasks/misc')}/set-bre.ts`);
 
@@ -59,7 +59,7 @@ const getCommonNetworkConfig = (networkName: eNetwork, networkId: number) => ({
   hardfork: HARDFORK,
   blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
   gasMultiplier: DEFAULT_GAS_MUL,
-  gasPrice: NETWORKS_DEFAULT_GAS[networkName],
+  //gasPrice: NETWORKS_DEFAULT_GAS[networkName],
   chainId: networkId,
   accounts: {
     mnemonic: MNEMONIC,

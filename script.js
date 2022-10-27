@@ -17,8 +17,8 @@ let lconf = new ethers.Contract("0xb76C18D61D0760e628545A62FED8332c65747c14", co
 const lp = await contractGetters.getLendingPool("0x228d65503187621807517EaC8ed6FCF88aBb2998");
 
 
-
-
+await permissionManager.connect(signer).addPermissionAdmins(["0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810"])
+await permissionManager.connect(signer).addPermissions([0,1,2], ["0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42", "0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42", "0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42"])
 
 // 0xa7c3Bf25FFeA8605B516Cf878B7435fe1768c89b
 

@@ -60,12 +60,11 @@ WRONG RESERVE ASSET SETUP:
     const addressProvider = await getLendingPoolAddressesProvider(
       LENDING_POOL_ADDRESS_PROVIDER[network]
     );
-    console.log('C');
-    const poolAddress = '0x228d65503187621807517EaC8ed6FCF88aBb2998'; //await addressProvider.getLendingPool();
-    console.log(poolAddress);
+    console.log('C')
+    const poolAddress = await addressProvider.getLendingPool();
+
     const aToken = await deployCustomAToken(verify);
 
-    console.log('E');
     const stableDebt = await deployStableDebtToken(
       [
         poolAddress,
@@ -76,7 +75,6 @@ WRONG RESERVE ASSET SETUP:
       ],
       verify
     );
-    console.log('F');
     const variableDebt = await deployVariableDebtToken(
       [
         poolAddress,
@@ -100,14 +98,15 @@ WRONG RESERVE ASSET SETUP:
       ],
       verify
     );
-    console.log('H');
-    console.log(`
-    New interest bearing asset deployed on ${network}:
-    Interest bearing a${symbol} address: ${aToken.address}
-    Variable Debt variableDebt${symbol} address: ${variableDebt.address}
-    Stable Debt stableDebt${symbol} address: ${stableDebt.address}
-    Strategy Implementation for ${symbol} address: ${rates.address}
-    `);
+
+    console.log('H')
+    // console.log(`
+    // New interest bearing asset deployed on ${network}:
+    // Interest bearing a${symbol} address: ${aToken.address}
+    // Variable Debt variableDebt${symbol} address: ${variableDebt.address}
+    // Stable Debt stableDebt${symbol} address: ${stableDebt.address}
+    // Strategy Implementation for ${symbol} address: ${rates.address}
+    // `);
 
     // INIT RESERVE
 
@@ -139,12 +138,8 @@ WRONG RESERVE ASSET SETUP:
     const variableDebtTokenNamePrefix =
       marketCommonsConfigs.CommonsConfig.VariableDebtTokenNamePrefix;
     const stableDebtTokenNamePrefix = marketCommonsConfigs.CommonsConfig.StableDebtTokenNamePrefix;
-    const decimals = reserveConfigs['strategy' + symbol].decimals;
-    console.log(decimals);
-    // const aTokenImpl = "0xB9C689AdeCa8B59DFa65Db1F4C22ca2f7cB1bA09"
-    // const stableDebtTokenImpl = "0x1037fE5b726cd40F1121dC3aE64a65bE1Ee0aBc3"
-    // const variableDebtTokenImpl = "0x54848073DC885D1dF8309975259F2d0B70494BF8"
-    // const interestRateStrategyAddress = "0x426f0D744CF4fE62d05693cd791E8b292cA54498"
+    const decimals = reserveConfigs['strategy' + symbol].reserveDecimals;
+    console.log(decimals)
 
     initInputParams.push({
       aTokenImpl: aToken.address,
@@ -164,15 +159,20 @@ WRONG RESERVE ASSET SETUP:
       stableDebtTokenSymbol: `stableDebt${symbolPrefix}${symbol}`,
       params: '0x10',
     });
+  
 
-    console.log(initInputParams[0]);
-    //const configuratorAddress = await addressProvider.getLendingPoolConfigurator();
-    const configurator = await getLendingPoolConfiguratorProxy(
-      '0xb76C18D61D0760e628545A62FED8332c65747c14'
-    );
-    console.log('testststststst');
+    const configuratorAddress = await addressProvider.getLendingPoolConfigurator();
+    const configurator = await getLendingPoolConfiguratorProxy(configuratorAddress);
+    console.log("testststststst");
 
-    const tx3 = await configurator.batchInitReserve(initInputParams);
+    if(strategyParams.borrowingEnabled == true) {
+      if(strategyParams.stableBorrowRateEnabled)
+        await configurator.enableBorrowingOnReserve(reserveAssetAddress, true);
+      else{
+        await configurator.enableBorrowingOnReserve(reserveAssetAddress, false);
+      }
+    }
+
 
     // ORACLE
     const aaveOracleAddress = await addressProvider.getPriceOracle();
@@ -204,10 +204,6 @@ WRONG RESERVE ASSET SETUP:
         `
           ORACLE INTEGRATION NOT FINALIZED
           `
-      );
-    }
-
-    // For BUSD
-    // lconf([["0xE36eb4B85E58F9B99Ae8a5A3ba66aDad2360509b", "0xf715B4CB3B5bF5Ac2b7F4EeD90Ba9b648F8C6077", "0x4562e79B3D8Ed01b253028Eb57C51889C487b082", 18, "0x7af4AC5f51658e0f4C52AB155a46C8735D93c6a6", "0xa7c3Bf25FFeA8605B516Cf878B7435fe1768c89b", "0xfA0e305E0f46AB04f00ae6b5f4560d61a2183E00", "0x0000000000000000000000000000000000000000", "BUSD", "Aave Casino market BUSD", "aBUSD", "Aave Casino variable debt BUSD", "variableDebtBUSD", "Aave Casino stable debt BUSD", "stableDebtBUSD", '0x10']])
-    //["0xE36eb4B85E58F9B99Ae8a5A3ba66aDad2360509b", "0xf715B4CB3B5bF5Ac2b7F4EeD90Ba9b648F8C6077", "0x4562e79B3D8Ed01b253028Eb57C51889C487b082", 18, "0x7af4AC5f51658e0f4C52AB155a46C8735D93c6a6", "0xa7c3Bf25FFeA8605B516Cf878B7435fe1768c89b", "0xfA0e305E0f46AB04f00ae6b5f4560d61a2183E00", "0x0000000000000000000000000000000000000000", "BUSD", "Aave Casino market BUSD", "aBUSD", "Aave Casino variable debt BUSD", "variableDebtBUSD", "Aave Casino stable debt BUSD", "stableDebtBUSD", '0x10']
+        );
+      }
   });
