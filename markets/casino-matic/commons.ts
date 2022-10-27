@@ -41,7 +41,7 @@ export const CommonsConfig: ICommonConfiguration = {
   },
   // TODO: reorg alphabetically, checking the reason of tests failing
   LendingRateOracleRatesCommon: {
-    'CAST': {
+    'IMMO': {
       borrowRate: oneRay.multipliedBy(0.03).toFixed(),
     },
     DAI: {
@@ -106,11 +106,11 @@ export const CommonsConfig: ICommonConfiguration = {
   },
   ChainlinkAggregator: {
     [ePolygonNetwork.matic]: {
-        'CAST': ZERO_ADDRESS,
+        'IMMO': ZERO_ADDRESS,
         DAI: '',
     },
     [ePolygonNetwork.mumbai]: {
-        'CAST': ZERO_ADDRESS,
+        'IMMO': ZERO_ADDRESS,
         DAI: '0x0FCAa9c899EC5A91eBc3D5Dd869De833b06fB046',
     },
   },

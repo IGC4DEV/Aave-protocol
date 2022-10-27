@@ -1,6 +1,6 @@
 import { eContractid, IReserveParams } from '../../helpers/types';
 
-import { rateStrategyStable, rateStrategyCAST } from './rateStrategies';
+import { rateStrategyStable, rateStrategyIMMO } from './rateStrategies';
 
 
 export const strategyDAI: IReserveParams = {
@@ -17,8 +17,8 @@ export const strategyDAI: IReserveParams = {
   reserveFactor: '1000',
 };
 
-export const strategyCAST: IReserveParams = {
-  strategy: rateStrategyCAST,
+export const strategyIMMO: IReserveParams = {
+  strategy: rateStrategyIMMO,
   baseLTVAsCollateral: '5000',
   liquidationThreshold: '7000',
   liquidationBonus: '11000',

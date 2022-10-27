@@ -304,6 +304,8 @@ export type iAaveArcPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 'LINK' | 'WBTC' |
 
 export type iAaveCasinoPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 'DAI' | 'IMMO' | 'BUSD' | 'USDT'>;
 
+export type iAaveCasinoPoolAssetsMatic<T> = Pick<iAssetsWithoutUSD<T>, 'DAI' | 'IMMO'>;
+
 export type iLpPoolAssets<T> = Pick<
   iAssetsWithoutUSD<T>,
   | 'DAI'
@@ -573,6 +575,13 @@ export interface IAaveCasinoConfiguration extends ICommonConfiguration {
   AssessorContracts: iParamsPerNetwork<ITokenAddress>;
   AssetCurrencies: iParamsPerNetwork<ITokenAddress>;
 }
+
+export interface IAaveCasinoMaticConfiguration extends ICommonConfiguration {
+  ReservesConfig: iAaveCasinoPoolAssetsMatic<IReserveParams>;
+  AssessorContracts: iParamsPerNetwork<ITokenAddress>;
+  AssetCurrencies: iParamsPerNetwork<ITokenAddress>;
+}
+
 export interface IMaticConfiguration extends ICommonConfiguration {
   ReservesConfig: iMaticPoolAssets<IReserveParams>;
 }

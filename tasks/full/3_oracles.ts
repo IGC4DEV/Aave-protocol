@@ -55,7 +55,7 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
       if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic ) {
         CasinoOracle = await deployCasinoMarketOracle(verify);
         fallbackOracleAddress = CasinoOracle.address;
-
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa-------------")
         const CasinoConfig = poolConfig as IAaveCasinoConfiguration;
         const assessorContracts = await getParamPerNetwork(CasinoConfig.AssessorContracts, network);
         const assetCurrencies = await getParamPerNetwork(CasinoConfig.AssetCurrencies, network);
