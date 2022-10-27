@@ -8,12 +8,15 @@ const cdeploy = require('./helpers/contracts-deployments');
 const contractHelpers = require('./helpers/contracts-helpers');
 
 const conf = require('./artifacts/contracts/protocol/lendingpool/LendingPoolConfigurator.sol/LendingPoolConfigurator.json')
+const oracle = require('./artifacts/contracts/misc/CasinoOracle.sol/CasinoMarketOracle.json')
 
 // !here
 const signer = await ethers.provider.getSigner();
 
 // !here
 let lconf = new ethers.Contract("0xb76C18D61D0760e628545A62FED8332c65747c14", conf.abi, signer)
+
+let f_oracle = new ethers.Contract("0x671Aaf6Da6D09Ef9107DAc7dfcB5a30027CFB965", oracle.abi, signer)
 const lp = await contractGetters.getLendingPool("0x228d65503187621807517EaC8ed6FCF88aBb2998");
 
 

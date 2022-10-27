@@ -163,7 +163,8 @@ WRONG RESERVE ASSET SETUP:
 
     const configuratorAddress = await addressProvider.getLendingPoolConfigurator();
     const configurator = await getLendingPoolConfiguratorProxy(configuratorAddress);
-    console.log("testststststst");
+    
+    const tx3 = await configurator.batchInitReserve(initInputParams);
 
     if(strategyParams.borrowingEnabled == true) {
       if(strategyParams.stableBorrowRateEnabled)
