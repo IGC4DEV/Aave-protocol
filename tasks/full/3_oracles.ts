@@ -88,7 +88,7 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
         );
         await waitForTx(await aaveOracle.setAssetSources(tokens, aggregators));
       }
-      if (pool === ConfigNames.Casino || pool === ConfigNames.Casino ) {
+      if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic ) {
         await waitForTx(await CasinoOracle.setAaveOracle(aaveOracle.address));
       }
       if (notFalsyOrZeroAddress(lendingRateOracleAddress)) {
