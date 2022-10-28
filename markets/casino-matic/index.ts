@@ -14,7 +14,7 @@ export const AaveCasinoMaticConfig: IAaveCasinoMaticConfiguration = {
   ...CommonsConfig,
   MarketId: 'Casino Matic Market',
   ProviderId: 1,
-  LendingPoolImpl: eContractid.PermissionedLendingPool,
+  LendingPoolImpl: eContractid.CasinoPermissionedLendingPool,
   ReservesConfig: {
     DAI: strategyDAI,
     IMMO: strategyIMMO,

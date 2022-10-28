@@ -254,7 +254,7 @@ export const deployAaveLibraries = async (
 
 export const deployLendingPool = async (verify?: boolean, lendingPoolImpl?: eContractid) => {
   const libraries = await deployAaveLibraries(verify);
-
+  console.log("end init libraries")
   let instance;
   switch (lendingPoolImpl) {
     case eContractid.PermissionedLendingPool:
