@@ -7,9 +7,11 @@ import { insertContractAddressInDb } from '../../helpers/contracts-helpers';
 import { getFirstSigner, getLendingPoolAddressesProvider } from '../../helpers/contracts-getters';
 import { waitForTx } from '../../helpers/misc-utils';
 import { ethers } from 'ethers';
+import { ConfigNames } from '../../helpers/configuration';
 
 task(`deploy-permission-manager`, `Deploys the PermissionManager contract`)
   .addFlag('verify', 'Verify PermissionManager contract via Etherscan API.')
+  .addParam('pool', `Pool name to retrieve configuration, supported: ${Object.values(ConfigNames)}`)
   .setAction(async ({ verify }, localBRE) => {
     await localBRE.run('set-DRE');
 
