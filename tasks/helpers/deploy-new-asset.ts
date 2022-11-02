@@ -34,8 +34,9 @@ const isSymbolValid = (symbol: string, network: eEthereumNetwork) =>
 
 task('external:deploy-new-asset', 'Deploy A token, Debt Tokens, Risk Parameters')
   .addParam('symbol', `Asset symbol, needs to have configuration ready`)
+  .addFlag('collateral', 'Add Reserve as Collateral')
   .addFlag('verify', 'Verify contracts at Etherscan')
-  .setAction(async ({ verify, symbol }, localBRE) => {
+  .setAction(async ({ verify, collateral, symbol }, localBRE) => {
     const network = 'goerli';
 
     if (!isSymbolValid(symbol, network as eEthereumNetwork)) {
@@ -64,7 +65,6 @@ WRONG RESERVE ASSET SETUP:
     const poolAddress = await addressProvider.getLendingPool();
 
     const aToken = await deployCustomAToken(verify);
-
     const stableDebt = await deployStableDebtToken(
       [
         poolAddress,
@@ -75,6 +75,7 @@ WRONG RESERVE ASSET SETUP:
       ],
       verify
     );
+
     const variableDebt = await deployVariableDebtToken(
       [
         poolAddress,
@@ -100,13 +101,13 @@ WRONG RESERVE ASSET SETUP:
     );
 
     console.log('H')
-    // console.log(`
-    // New interest bearing asset deployed on ${network}:
-    // Interest bearing a${symbol} address: ${aToken.address}
-    // Variable Debt variableDebt${symbol} address: ${variableDebt.address}
-    // Stable Debt stableDebt${symbol} address: ${stableDebt.address}
-    // Strategy Implementation for ${symbol} address: ${rates.address}
-    // `);
+    console.log(`
+    New interest bearing asset deployed on ${network}:
+    Interest bearing a${symbol} address: ${aToken.address}
+    Variable Debt variableDebt${symbol} address: ${variableDebt.address}
+    Stable Debt stableDebt${symbol} address: ${stableDebt.address}
+    Strategy Implementation for ${symbol} address: ${rates.address}
+    `);
 
     // INIT RESERVE
 
@@ -143,7 +144,7 @@ WRONG RESERVE ASSET SETUP:
 
     initInputParams.push({
       aTokenImpl: aToken.address,
-      stableDebtTokenImpl: stableDebt.address,
+      stableDebtTokenImpl: stableDebt.address,//stableDebtAddress,
       variableDebtTokenImpl: variableDebt.address,
       underlyingAssetDecimals: decimals,
       interestRateStrategyAddress: rates.address,
@@ -160,10 +161,9 @@ WRONG RESERVE ASSET SETUP:
       params: '0x10',
     });
   
-
     const configuratorAddress = await addressProvider.getLendingPoolConfigurator();
     const configurator = await getLendingPoolConfiguratorProxy(configuratorAddress);
-    
+
     const tx3 = await configurator.batchInitReserve(initInputParams);
 
     if(strategyParams.borrowingEnabled == true) {
@@ -174,6 +174,16 @@ WRONG RESERVE ASSET SETUP:
       }
     }
 
+    if(collateral){
+      await configurator.configureReserveAsCollateral(
+        reserveAssetAddress, 
+        strategyParams.strategy.baseLTVAsCollateral, 
+        strategyParams.strategy.liquidationThreshold, 
+        strategyParams.strategy.liquidationBonus)
+    }
+
+
+    console.log("test4")
 
     // ORACLE
     const aaveOracleAddress = await addressProvider.getPriceOracle();
@@ -200,6 +210,7 @@ WRONG RESERVE ASSET SETUP:
           [AssetCurrencies]
         )
       );
+      console.log('End')
     } else {
       throw new Error(
         `
@@ -207,4 +218,6 @@ WRONG RESERVE ASSET SETUP:
           `
         );
       }
+
+    
   });
