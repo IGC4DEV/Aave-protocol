@@ -47,6 +47,9 @@ export const CommonsConfig: ICommonConfiguration = {
     USDT: {
       borrowRate: oneRay.multipliedBy(0.035).toFixed(),
     },
+    EURL: {
+      borrowRate: oneRay.multipliedBy(0.039).toFixed(),
+    },
   },
   // ----------------
   // COMMON PROTOCOL ADDRESSES ACROSS POOLS
@@ -184,7 +187,8 @@ export const CommonsConfig: ICommonConfiguration = {
       'IMMO': ZERO_ADDRESS,
       DAI: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d',
       BUSD: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d',
-      USDT: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d'
+      USDT: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d',
+      EURL: '0x0d79df66BE487753B02D015Fb622DED7f0E9798d'
     },
     [eEthereumNetwork.kovan]: {
     },

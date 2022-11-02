@@ -7,6 +7,7 @@ import {
   strategyIMMO,
   strategyBUSD,
   strategyUSDT,
+  strategyEURL,
 } from './reservesConfigs';
 
 // ----------------
@@ -31,6 +32,7 @@ export const AaveCasinoConfig: IAaveCasinoConfiguration = {
     'IMMO': strategyIMMO,
     BUSD: strategyBUSD,
     USDT: strategyUSDT,
+    EURL: strategyEURL,
   },
   ReserveAssets: {
     [eEthereumNetwork.buidlerevm]: {},
@@ -44,10 +46,11 @@ export const AaveCasinoConfig: IAaveCasinoConfiguration = {
     [eEthereumNetwork.main]: {},
     [eEthereumNetwork.tenderly]: {},
     [eEthereumNetwork.goerli]: {
-      'IMMO': '0xe77806aE51F209c3b6490F573BB57877344BbBc9', // Old Casino Token '0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42',
+      'IMMO': "0xEcf3A32BF9aA336beb5227dA21c421e812e8BCAc", // old IMMO : '0xe77806aE51F209c3b6490F573BB57877344BbBc9', // Old Casino Token '0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42',
       DAI: GDAI,
       BUSD: GBUSD,
       USDT: GUSDT,
+      EURL: "0xb5da4907FFC9F286A0923FE81904aAB7cde4c09C"
     },
   },
   AssessorContracts: {
