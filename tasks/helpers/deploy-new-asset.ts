@@ -61,7 +61,7 @@ WRONG RESERVE ASSET SETUP:
     const addressProvider = await getLendingPoolAddressesProvider(
       LENDING_POOL_ADDRESS_PROVIDER[network]
     );
-    console.log('C')
+    console.log('C');
     const poolAddress = await addressProvider.getLendingPool();
 
     const aToken = await deployCustomAToken(verify);
@@ -100,7 +100,7 @@ WRONG RESERVE ASSET SETUP:
       verify
     );
 
-    console.log('H')
+    console.log('H');
     console.log(`
     New interest bearing asset deployed on ${network}:
     Interest bearing a${symbol} address: ${aToken.address}
@@ -140,11 +140,11 @@ WRONG RESERVE ASSET SETUP:
       marketCommonsConfigs.CommonsConfig.VariableDebtTokenNamePrefix;
     const stableDebtTokenNamePrefix = marketCommonsConfigs.CommonsConfig.StableDebtTokenNamePrefix;
     const decimals = reserveConfigs['strategy' + symbol].reserveDecimals;
-    console.log(decimals)
+    console.log(decimals);
 
     initInputParams.push({
       aTokenImpl: aToken.address,
-      stableDebtTokenImpl: stableDebt.address,//stableDebtAddress,
+      stableDebtTokenImpl: stableDebt.address, //stableDebtAddress,
       variableDebtTokenImpl: variableDebt.address,
       underlyingAssetDecimals: decimals,
       interestRateStrategyAddress: rates.address,
@@ -160,30 +160,30 @@ WRONG RESERVE ASSET SETUP:
       stableDebtTokenSymbol: `stableDebt${symbolPrefix}${symbol}`,
       params: '0x10',
     });
-  
+
     const configuratorAddress = await addressProvider.getLendingPoolConfigurator();
     const configurator = await getLendingPoolConfiguratorProxy(configuratorAddress);
 
     const tx3 = await configurator.batchInitReserve(initInputParams);
 
-    if(strategyParams.borrowingEnabled == true) {
-      if(strategyParams.stableBorrowRateEnabled)
+    if (strategyParams.borrowingEnabled == true) {
+      if (strategyParams.stableBorrowRateEnabled)
         await configurator.enableBorrowingOnReserve(reserveAssetAddress, true);
-      else{
+      else {
         await configurator.enableBorrowingOnReserve(reserveAssetAddress, false);
       }
     }
 
-    if(collateral){
+    if (collateral) {
       await configurator.configureReserveAsCollateral(
-        reserveAssetAddress, 
-        strategyParams.strategy.baseLTVAsCollateral, 
-        strategyParams.strategy.liquidationThreshold, 
-        strategyParams.strategy.liquidationBonus)
+        reserveAssetAddress,
+        strategyParams.baseLTVAsCollateral,
+        strategyParams.liquidationThreshold,
+        strategyParams.liquidationBonus
+      );
     }
 
-
-    console.log("test4")
+    console.log('test4');
 
     // ORACLE
     const aaveOracleAddress = await addressProvider.getPriceOracle();
@@ -210,14 +210,12 @@ WRONG RESERVE ASSET SETUP:
           [AssetCurrencies]
         )
       );
-      console.log('End')
+      console.log('End');
     } else {
       throw new Error(
         `
           ORACLE INTEGRATION NOT FINALIZED
           `
-        );
-      }
-
-    
+      );
+    }
   });
