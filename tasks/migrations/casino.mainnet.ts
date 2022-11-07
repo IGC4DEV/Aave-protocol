@@ -8,7 +8,7 @@ import * as contractGetters from '../../helpers/contracts-getters';
 task('casino:mainnet', 'Deploy development enviroment')
   .addFlag('verify', 'Verify contracts at Etherscan')
   .setAction(async ({ verify }, DRE) => {
-    const POOL_NAME = ConfigNames.CasinoMatic;
+    const POOL_NAME = ConfigNames.CasinoAvax;
     await DRE.run('set-DRE');
 
     // Prevent loss of gas verifying all the needed ENVs for Etherscan verification

@@ -52,6 +52,7 @@ export enum AavePools {
   avalanche = 'avalanche',
   casino = 'casino',
   casinoMatic = 'casinoMatic',
+  casinoAvax = 'casinoAvax'
 }
 
 export enum eContractid {
@@ -307,6 +308,8 @@ export type iAaveCasinoPoolAssets<T> = Pick<iAssetsWithoutUSD<T>, 'DAI' | 'IMMO'
 
 export type iAaveCasinoPoolAssetsMatic<T> = Pick<iAssetsWithoutUSD<T>, 'DAI' | 'IMMO'>;
 
+export type iAaveCasinoPoolAssetsAvax<T> = Pick<iAssetsWithoutUSD<T>, 'DAI' | 'IMMO'>;
+
 export type iLpPoolAssets<T> = Pick<
   iAssetsWithoutUSD<T>,
   | 'DAI'
@@ -479,6 +482,7 @@ export interface iParamsPerPool<T> {
   [AavePools.casino]: T;
   [AavePools.arc]: T;
   [AavePools.casinoMatic]: T;
+  [AavePools.casinoAvax]: T;
   [AavePools.avalanche]: T;
 }
 
@@ -579,6 +583,12 @@ export interface IAaveCasinoConfiguration extends ICommonConfiguration {
 
 export interface IAaveCasinoMaticConfiguration extends ICommonConfiguration {
   ReservesConfig: iAaveCasinoPoolAssetsMatic<IReserveParams>;
+  AssessorContracts: iParamsPerNetwork<ITokenAddress>;
+  AssetCurrencies: iParamsPerNetwork<ITokenAddress>;
+}
+
+export interface IAaveCasinoAvaxConfiguration extends ICommonConfiguration {
+  ReservesConfig: iAaveCasinoPoolAssetsAvax<IReserveParams>;
   AssessorContracts: iParamsPerNetwork<ITokenAddress>;
   AssetCurrencies: iParamsPerNetwork<ITokenAddress>;
 }

@@ -30,7 +30,6 @@ import { usingPolygon, verifyAtPolygon } from './polygon-utils';
 import { ConfigNames, loadPoolConfig } from './configuration';
 import { ZERO_ADDRESS } from './constants';
 import { getDefenderRelaySigner, usingDefender } from './defender-utils';
-import AaveCasinoMaticConfig from '../markets/casino-matic';
 
 export type MockTokenMap = { [symbol: string]: MintableERC20 };
 
@@ -196,7 +195,7 @@ export const getOptionalParamAddressPerNetwork = (
 };
 
 export const getParamPerPool = <T>(
-  { proto, casino, casinoMatic, amm, matic, arc, avalanche }: iParamsPerPool<T>,
+  { proto, casino, casinoMatic, casinoAvax, amm, matic, arc, avalanche }: iParamsPerPool<T>,
   pool: AavePools
 ) => {
   switch (pool) {
@@ -212,6 +211,8 @@ export const getParamPerPool = <T>(
       return arc;
     case AavePools.casino:
       return casino;
+    case AavePools.casinoAvax:
+        return casinoAvax;
     case AavePools.avalanche:
       return avalanche;
 

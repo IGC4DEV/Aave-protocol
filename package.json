@@ -20,7 +20,7 @@
     "hardhat:fuji": "hardhat --network fuji",
     "hardhat:avalanche": "hardhat --network avalanche",
     "compile": "SKIP_LOAD=true hardhat compile",
-    "console:fork": "FORK=mumbai hardhat console",
+    "console:fork": "FORK=goerli hardhat console",
     "test": "npm run compile && TS_NODE_TRANSPILE_ONLY=1 hardhat test ./test-suites/test-aave/*.spec.ts",
     "test-amm": "npm run compile && TS_NODE_TRANSPILE_ONLY=1 hardhat test ./test-suites/test-amm/*.spec.ts",
     "test-amm-scenarios": "npm run compile && TS_NODE_TRANSPILE_ONLY=1 hardhat test ./test-suites/test-amm/__setup.spec.ts test-suites/test-amm/scenario.spec.ts",
@@ -78,6 +78,7 @@
     "casino:goerli:full:migration": "npm run compile && npm run hardhat:goerli -- casino:mainnet",
     "casino:fork:goerli": "npm run compile && FORK=goerli hardhat casino:mainnet",
     "casinoMatic:mumbai:full:migration": "npm run compile && npm run hardhat:mumbai -- casino:mainnet",
+    "casinoMatic:fuji:full:migration": "npm run compile && npm run hardhat:fuji -- casino:mainnet",
     "prettier:check": "npx prettier -c 'tasks/**/*.ts' 'contracts/**/*.sol' 'helpers/**/*.ts'  'test-suites/test-aave/**/*.ts'",
     "prettier:write": "prettier --write 'tasks/**/*.ts' 'contracts/**/*.sol' 'helpers/**/*.ts'  'test-suites/test-aave/**/*.ts'",
     "ci:test": "npm run compile && npm run test",
@@ -118,8 +119,9 @@
     "print-config:fork:mainnet": "FORK=main hardhat print-config:fork",
     "print-config:kovan": "hardhat --network kovan print-config --pool Aave --data-provider 0xA1901785c29cBd48bfA74e46b67C736b26054fa4",
     "external:deploy-assets-kovan": "npm run compile && hardhat --network kovan external:deploy-new-asset --symbol ${SYMBOL} --verify",
-    "external:deploy-assets-main": "npm run compile && hardhat --network main external:deploy-new-asset --symbol ${SYMBOL} --verify",
+    "external:deploy-assets-main": "npm run compile && hardhat --network mumbai external:deploy-new-asset --collateral --symbol ${SYMBOL} ",
     "external:deploy-assets-goerli": "npm run compile && hardhat --network goerli external:deploy-new-asset --symbol ${SYMBOL}",
+    "external:deploy-assets-goerli-collateral": "npm run compile && hardhat --network goerli external:deploy-new-asset --collateral --symbol ${SYMBOL}",
     "prepublishOnly": "npm run compile"
   },
   "devDependencies": {

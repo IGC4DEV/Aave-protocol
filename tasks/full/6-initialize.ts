@@ -120,7 +120,7 @@ task('full:initialize-lending-pool', 'Initialize lending pool configuration.')
       let gateWay = getParamPerNetwork(WethGateway, network);
 
       if (!notFalsyOrZeroAddress(gateWay)) {
-        if (pool === ConfigNames.Arc || pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic) {
+        if (pool === ConfigNames.Arc || pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic || pool === ConfigNames.CasinoAvax) {
           gateWay = (await getPermissionedWETHGateway()).address;
         } else {
           gateWay = (await getWETHGateway()).address;

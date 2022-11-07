@@ -52,7 +52,7 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
       );
       let fallbackOracleAddress = await getParamPerNetwork(FallbackOracle, network);
       let CasinoOracle;
-      if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic ) {
+      if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic || pool === ConfigNames.CasinoAvax) {
         CasinoOracle = await deployCasinoMarketOracle(verify);
         fallbackOracleAddress = CasinoOracle.address;
 
@@ -88,7 +88,7 @@ task('full:deploy-oracles', 'Deploy oracles for dev enviroment')
         );
         await waitForTx(await aaveOracle.setAssetSources(tokens, aggregators));
       }
-      if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic ) {
+      if (pool === ConfigNames.Casino || pool === ConfigNames.CasinoMatic || pool === ConfigNames.CasinoAvax) {
         await waitForTx(await CasinoOracle.setAaveOracle(aaveOracle.address));
       }
       if (notFalsyOrZeroAddress(lendingRateOracleAddress)) {

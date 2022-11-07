@@ -13,6 +13,7 @@ import AaveCasinoConfig from '../markets/casino';
 import AaveCasinoMaticConfig from '../markets/casino-matic';
 import MaticConfig from '../markets/matic';
 import AvalancheConfig from '../markets/avalanche';
+import AaveCasinoAvaxConfig from '../markets/casino-avax';
 import AmmConfig from '../markets/amm';
 
 import { CommonsConfig } from '../markets/aave/commons';
@@ -29,7 +30,8 @@ export enum ConfigNames {
   Amm = 'Amm',
   Arc = 'Arc',
   Avalanche = 'Avalanche',
-  Casino = 'Casino'
+  Casino = 'Casino',
+  CasinoAvax = 'CasinoAvax',
 }
 
 export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
@@ -48,6 +50,8 @@ export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
       return AaveArcConfig;
     case ConfigNames.Casino:
       return AaveCasinoConfig;
+    case ConfigNames.CasinoAvax:
+      return AaveCasinoAvaxConfig;
     default:
       throw new Error(
         `Unsupported pool configuration: ${configName} is not one of the supported configs ${Object.values(
@@ -74,6 +78,9 @@ export const getReservesConfigByPool = (pool: AavePools): iMultiPoolsAssets<IRes
       },
       [AavePools.casinoMatic]: {
         ...AaveCasinoMaticConfig.ReservesConfig,
+      },
+      [AavePools.casinoAvax]: {
+        ...AaveCasinoAvaxConfig.ReservesConfig,
       },
       [AavePools.arc]: {
         ...AaveArcConfig.ReservesConfig,
