@@ -26,7 +26,7 @@ export const AaveCasinoMaticConfig: IAaveCasinoMaticConfiguration = {
     },
     [ePolygonNetwork.mumbai]: {
       // Mock tokens with a simple "mint" external function, except wmatic
-      'IMMO': '0x663c6e8Bd60B3f6A9C5bFee2eb4c9f4C63dDCEF3',
+      'IMMO': '0x8eB0a9DDaAB60E4c3AD0C02A6F615ACEA1E99141',
       DAI: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
     },
   },

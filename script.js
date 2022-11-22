@@ -1,6 +1,7 @@
 // docker-compose run contracts-env npm run console:fork
 
 run("set-DRE")
+
 const contractGetters = require('./helpers/contracts-getters');
 const cdeploy = require('./helpers/contracts-deployments');
 
@@ -9,19 +10,37 @@ const contractHelpers = require('./helpers/contracts-helpers');
 
 const conf = require('./artifacts/contracts/protocol/lendingpool/LendingPoolConfigurator.sol/LendingPoolConfigurator.json')
 const oracle = require('./artifacts/contracts/misc/CasinoOracle.sol/CasinoMarketOracle.json')
+const lpool = require('./artifacts/contracts/protocol/lendingpool/PermissionedLendingPool.sol/PermissionedLendingPool.json')
+const lpoolCas = require('./artifacts/contracts/protocol/lendingpool/CasinoPermissionedLendingPool.sol/CasinoPermissionedLendingPool.json')
+const colla = require('./artifacts/contracts/protocol/lendingpool/LendingPoolCollateralManager.sol/LendingPoolCollateralManager.json')
+const permi = require('./artifacts/contracts/protocol/configuration/PermissionManager.sol/PermissionManager.json')
 
-// !here
 const signer = await ethers.provider.getSigner();
 
-// !here
 let lconf = new ethers.Contract("0xb76C18D61D0760e628545A62FED8332c65747c14", conf.abi, signer)
+let pool = new ethers.Contract("0x228d65503187621807517EaC8ed6FCF88aBb2998", lpool.abi, signer)
+let lcolla = new ethers.Contract("0x2D9939cCCf6bB4B9EF2487DDB6Ae291829b7a163", colla.abi, signer)
+let poolcas = new ethers.Contract("0x228d65503187621807517EaC8ed6FCF88aBb2998", lpoolCas.abi, signer)
+
+let permissionManager = new ethers.Contract("0xb5d302888759648734CADBCa7cC39Ef2B3DFFb0e", permi.abi, signer)
+
 
 let f_oracle = new ethers.Contract("0x671Aaf6Da6D09Ef9107DAc7dfcB5a30027CFB965", oracle.abi, signer)
 const lp = await contractGetters.getLendingPool("0x228d65503187621807517EaC8ed6FCF88aBb2998");
-
+await lconf.updateAToken(["0xe77806aE51F209c3b6490F573BB57877344BbBc9", "0xfA0e305E0f46AB04f00ae6b5f4560d61a2183E00", "0x0000000000000000000000000000000000000000", "Aave Casino market IMMO", "aIMMO", "0x56131caD19337568211d138B3F34cA5f02a766AE", '0x10'])
+pool.seize("0xf70e545387fce353b184e10e2df01ac95da35e15", ["0xad55dc6cae4219f48cc6c3282e3d3b1a7db53c42"], "0xf70e545387fce353b184e10e2df01ac95da35e15")
+await pool.seize('0xF70E545387fCe353b184e10e2dF01AC95DA35e15', ['0xa7c3Bf25FFeA8605B516Cf878B7435fe1768c89b'], '0xF70E545387fCe353b184e10e2dF01AC95DA35e15')
+const params2 = {
+    asset : "0xe77806aE51F209c3b6490F573BB57877344BbBc9", 
+    treasury : "0xfA0e305E0f46AB04f00ae6b5f4560d61a2183E00", 
+    incentivesController : "0x0000000000000000000000000000000000000000", 
+    name : "Aave Casino market IMMO", 
+    symbol : "aIMMO", 
+    implementation : "0x56131caD19337568211d138B3F34cA5f02a766AE", 
+    params : 0x10}
 
 await permissionManager.connect(signer).addPermissionAdmins(["0xc9FcBC996C4c6Bd5680db49B3EEb4C3165424810"])
-await permissionManager.connect(signer).addPermissions([0,1,2], ["0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42", "0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42", "0xaD55Dc6cAE4219F48Cc6c3282E3d3b1A7DB53c42"])
+await permissionManager.addPermissions([0,1,2], ["0xF3aE472fcfeE275d1E4b592Fb4433201E731da38", "0xF3aE472fcfeE275d1E4b592Fb4433201E731da38", "0xF3aE472fcfeE275d1E4b592Fb4433201E731da38"])
 
 // 0xa7c3Bf25FFeA8605B516Cf878B7435fe1768c89b
 

@@ -247,7 +247,6 @@ contract PermissionedLendingPool is IPermissionedLendingPool, LendingPool {
     address to
   ) public virtual override(IPermissionedLendingPool) onlyUserPermissionAdmin(user) whenNotPaused {
     address collateralManager = _addressesProvider.getLendingPoolCollateralManager();
-
     //solium-disable-next-line
     (bool success, bytes memory result) =
       collateralManager.delegatecall(
